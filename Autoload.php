@@ -2,13 +2,15 @@
 
 spl_autoload_register(function($className) {
 	$pathParts = explode('\\', $className);
-	if (reset($pathParts) === 'Otus')
+	if (
+		array_shift($pathParts) === 'Otus'
+		&&
+		($paths = glob(__DIR__ . '/*' . implode('/*', $pathParts) . '.php'))
+	)
 	{
-		$path = 
-		while ($pathPart === next($pathPart))
+		foreach ($paths as $path)
 		{
-			$pathPart =
+			include_once $path;
 		}
-		include_once __DIR__.'/dev/updater.php';
 	}
 });
