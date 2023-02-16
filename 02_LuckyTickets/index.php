@@ -18,7 +18,7 @@ $solver = new RecursiveSolver();
 
 foreach ($tester->getData() as $digitCapacity => $rightAnswer)
 {
-	echo 'The digit capacity: ' . $digitCapacity
-		. ' my answer: ' . $solver->calculate($digitCapacity)
+	echo 'The digit capacity: ' . $digitCapacity;
+	echo ' my answer: ' . $solver->calculate($digitCapacity)
 		. ' right answer: ' . $rightAnswer . "\n";
 }

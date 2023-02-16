@@ -43,6 +43,7 @@ class Tester
 			}
 			closedir($handle);
 		}
+		ksort($result);
 		$this->data = $result;
 		return $this->data;
 	}
