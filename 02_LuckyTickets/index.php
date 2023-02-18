@@ -16,9 +16,22 @@ echo 'The second algorithm with simple loop and 6 digits. my answer: '
 
 $solver = new RecursiveSolver();
 
+echo "The third algorithm with recursion till 4 capacity:\n";
 foreach ($tester->getData() as $digitCapacity => $rightAnswer)
 {
-	echo 'The digit capacity: ' . $digitCapacity;
-	echo ' my answer: ' . $solver->calculate($digitCapacity)
+	echo 'The digit capacity: ' . $digitCapacity . ' my answer: ' . $solver->calculate($digitCapacity)
+		. ' right answer: ' . $rightAnswer . "\n";
+	if ($digitCapacity > 2)
+	{
+		break; // Too long
+	}
+}
+echo "\nThe fourth algorithm with table sum:\n";
+
+$fourthSolver = new TableSolver();
+
+foreach ($tester->getData() as $digitCapacity => $rightAnswer)
+{
+	echo 'The digit capacity: ' . $digitCapacity.' my answer: ' . $fourthSolver->calculate($digitCapacity)
 		. ' right answer: ' . $rightAnswer . "\n";
 }
