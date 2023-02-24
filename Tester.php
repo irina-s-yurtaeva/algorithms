@@ -36,7 +36,7 @@ class Tester
 					if (is_file($outFile))
 					{
 						$in = explode("\r\n", file_get_contents($inFile));
-						$out = (double) file_get_contents($outFile);
+						$out = explode("\r\n", file_get_contents($outFile));
 						$index = (int)preg_replace('/[^\d]+/', '', $file);
 						$result[$index] = [$in, $out];
 					}
