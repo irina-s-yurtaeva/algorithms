@@ -2,7 +2,7 @@
 
 namespace Otus;
 
-class Tester
+class TesterInt
 {
 	private string $path;
 	private array $data;
@@ -35,10 +35,9 @@ class Tester
 					$outFile = substr($inFile, 0, -3) . '.out';
 					if (is_file($outFile))
 					{
-						$in = explode("\r\n", file_get_contents($inFile));
-						$out = (double) file_get_contents($outFile);
-						$index = (int)preg_replace('/[^\d]+/', '', $file);
-						$result[$index] = [$in, $out];
+						$in = (int) file_get_contents($inFile);
+						$out = (int) file_get_contents($outFile);
+						$result[$in] = $out;
 					}
 				}
 			}

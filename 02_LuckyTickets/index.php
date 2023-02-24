@@ -3,9 +3,9 @@ namespace Otus\LuckyTickets;
 
 include_once __DIR__ . '/../Autoload.php';
 
-use Otus\Tester;
+use Otus\TesterInt;
 
-$tester = new Tester($argv[1] ?? __DIR__ . '/1.Tickets');
+$tester = new TesterInt($argv[1] ?? __DIR__ . '/1.Tickets');
 $testData = $tester->getData();
 echo 'The first algorithm with simple loop and 6 digits. my answer: '
 	. LoopSolverForSix::calculate()
