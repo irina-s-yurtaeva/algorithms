@@ -8,7 +8,8 @@ use Otus\TestResult;
 
 $timelimitSeconds = 1;
 $headColumnSize = 25;
-$otherColumnSize = 15;
+$otherColumnSize = 13;
 
 //include_once 'indexPower.php';
-include_once 'indexFibo.php';
+//include_once 'indexFibo.php';
+include_once 'indexPrime.php';
