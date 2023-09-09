@@ -5,7 +5,11 @@ spl_autoload_register(function($className) {
 	if (
 		array_shift($pathParts) === 'Otus'
 		&&
-		($paths = glob(__DIR__ . '/*' . implode('/*', $pathParts) . '.php'))
+		(
+			($paths = glob(__DIR__ . '/*' . implode('/*', $pathParts) . '.php'))
+			||
+			($paths = glob(__DIR__ . '/' . implode('/', $pathParts) . '.php'))
+		)
 	)
 	{
 		foreach ($paths as $path)
