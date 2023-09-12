@@ -5,23 +5,37 @@ include_once __DIR__ . '/../Autoload.php';
 
 use Otus\Tester;
 
-$tester = new Tester($argv[1] ?? __DIR__ . '/1.Bitboard - King');
-$kingPredictor = new BitboardKing();
-echo "King: \n";
-
-foreach ($tester->getData() as [[$position], [$numberOnes, $rightAnswer]])
+foreach ([
+//	[__DIR__ . '/1.Bitboard - King', BitboardKing::class],
+	[__DIR__ . '/2.Bitboard - Knight', BitboardKnight::class],
+] as $set)
 {
-	$result = $kingPredictor->calculate((int) $position);
-	if ($result === null)
+	$tester = new Tester($set[0]);
+	$chessPredictor = new $set[1]();
+	echo $chessPredictor->getName() . ": \n";
+	foreach ($tester->getData() as [[$position], [$countOnes, $rightAnswer]])
 	{
-		echo 'For the position: ' . str_pad($position, 3) . " php does not allow 63 bits\n";
+		$result = $chessPredictor->calculate((int) $position);
+		echo 'For the position: ' . str_pad($position, 3);
+		if ($result === null)
+		{
+			echo " php does not allow 63 bits\n";
+		}
+		else if ($result[0] == $rightAnswer && $result[1] == $countOnes)
+		{
+			echo ' we have right answer: ' . str_pad( $result[0], 19)
+				. ' bits: ' . str_pad( $result[1], 2) . "\n"
+			;
+		}
+		else
+		{
+			echo ' we have wrong answer: ' . str_pad( $result[0], 19)
+				. ' and right is: '. str_pad( $rightAnswer, 19)
+				. ' and bits: ' . str_pad( $result[1], 2)
+				. ' bits: ' . str_pad( $countOnes, 2) . "\n"
+			;
+		}
 	}
-	else
-	{
-		echo 'For the position: ' . str_pad($position, 3) . ' we have got: '
-			. str_pad( $result[0], 19) . ' and right answer is: ' . str_pad($rightAnswer, 20)
-			. ' bits: ' . str_pad( $result[1], 2) . ' = '. $numberOnes. "\n"
-		;
-	}
-
+	echo "\n";
 }
+
