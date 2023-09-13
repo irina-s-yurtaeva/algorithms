@@ -23,7 +23,7 @@ class BitboardKing
 			return null;
 		}
 
-		$bitboardPosition = 1 << $position;
+		$bitboardPosition = /*1 << */$position;
 		$possiblePosition = $this->findPossiblePositions($bitboardPosition);
 
 		return [$possiblePosition, $this->countBits($possiblePosition)];
@@ -36,6 +36,7 @@ class BitboardKing
 
 	protected function findPossiblePositions(int $position): int
 	{
+		$position = 1 << $position;
 		$adaptedPositionOnA = ($position & self::WITHOUT_A);
 		$adaptedPositionOnH = ($position & self::WITHOUT_H);
 		$possiblePosition =

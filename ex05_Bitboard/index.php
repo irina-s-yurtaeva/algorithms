@@ -6,13 +6,15 @@ include_once __DIR__ . '/../Autoload.php';
 use Otus\Tester;
 
 foreach ([
-//	[__DIR__ . '/1.Bitboard - King', BitboardKing::class],
+	[__DIR__ . '/1.Bitboard - King', BitboardKing::class],
 	[__DIR__ . '/2.Bitboard - Knight', BitboardKnight::class],
+	[__DIR__ . '/3.Bitboard - Rook', BitboardRook::class],
 ] as $set)
 {
 	$tester = new Tester($set[0]);
 	$chessPredictor = new $set[1]();
-	echo $chessPredictor->getName() . ": \n";
+	echo $chessPredictor->getName() . ":";
+
 	foreach ($tester->getData() as [[$position], [$countOnes, $rightAnswer]])
 	{
 		$result = $chessPredictor->calculate((int) $position);
@@ -36,6 +38,6 @@ foreach ([
 			;
 		}
 	}
-	echo "\n";
+	echo "\n\n";
 }
 

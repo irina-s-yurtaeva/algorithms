@@ -15,6 +15,7 @@ class BitboardKnight extends BitboardKing
 
 	protected function findPossiblePositions(int $position): int
 	{
+		$position = 1 << $position;
 		$possiblePosition  =
 			self::WITHOUT_GH & ($position <<  6 | $position >> 10)
 			| self::WITHOUT_H & ($position << 15 | $position >> 17)
