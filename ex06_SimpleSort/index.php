@@ -2,8 +2,8 @@
 namespace Otus\AlgebraicAlgs;
 
 use Otus\ex06_SimpleSort\ArrayFabric;
-use Otus\ex06_SimpleSort\SortBubble1;
-use Otus\ex06_SimpleSort\SortBubble2;
+use Otus\ex06_SimpleSort\SortBubble;
+use Otus\ex06_SimpleSort\SortBubbleEnhanced;
 use Otus\ex06_SimpleSort\SortVisualizer;
 
 include_once __DIR__ . '/../Autoload.php';
@@ -13,7 +13,7 @@ $array = ArrayFabric::createShuffle(10);
 $decorator = new SortVisualizer();
 
 foreach ([
-	SortBubble1::class,
+	SortBubble::class,
 //	SortBubble2::class
 ] as $sortClass)
 {

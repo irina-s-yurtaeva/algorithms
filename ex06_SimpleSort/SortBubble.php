@@ -2,15 +2,15 @@
 
 namespace Otus\ex06_SimpleSort;
 
-class SortBubble2 extends SortAlgs
+class SortBubble extends SortAlgs
 {
 	public function sort(): static
 	{
-		$maxI = $this->length;
+		$maxI = $this->length - 1;
 
-		for ($i = 1; $i < $maxI - 1; $i++)
+		for ($i = $maxI; $i > 0; $i--)
 		{
-			for ($j = 0; $j < $i; $j++)
+			for ($j = 0; $j < $maxI; $j++)
 			{
 				if ($this->needToSwap($this->array[$j], $this->array[$j + 1]))
 				{
