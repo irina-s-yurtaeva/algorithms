@@ -10,4 +10,9 @@ class ArrayFabric
 		shuffle($res);
 		return $res;
 	}
+
+	public static function createSorted(int $size): array
+	{
+		return range(0, $size - 1);
+	}
 }

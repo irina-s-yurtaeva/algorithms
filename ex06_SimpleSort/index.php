@@ -8,14 +8,18 @@ use Otus\ex06_SimpleSort\SortVisualizer;
 
 include_once __DIR__ . '/../Autoload.php';
 
-$array = ArrayFabric::createShuffle(10);
+$array = ArrayFabric::createShuffle(100);
+//$array = ArrayFabric::createSorted(10);
 
 $decorator = new SortVisualizer();
 
 foreach ([
-//	SortBubble::class,
-//	SortBubbleEnhanced::class
-	\Otus\ex06_SimpleSort\SortSelection::class
+//	\Otus\ex06_SimpleSort\SortBubble::class,
+//	\Otus\ex06_SimpleSort\SortBubbleEnhanced::class
+//	\Otus\ex06_SimpleSort\SortSelection::class
+	\Otus\ex06_SimpleSort\SortInsertion::class,
+	\Otus\ex06_SimpleSort\SortInsertionWithAShift::class,
+	\Otus\ex06_SimpleSort\SortInsertionBinarySearch::class,
 ] as $sortClass)
 {
 	$sortStrategy = (new $sortClass)->set($array);

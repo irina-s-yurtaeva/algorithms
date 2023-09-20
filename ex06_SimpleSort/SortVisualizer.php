@@ -20,7 +20,7 @@ class SortVisualizer implements ISortArray
 
 	public function sort(): static
 	{
-		echo 'before: ' . implode(', ', $this->strategy->get()). PHP_EOL;
+		echo static::class . ' before: ' . implode(', ', $this->strategy->get()). PHP_EOL;
 		$this->strategy->sort();
 		// Отрисовать массив
 		return $this;
@@ -28,7 +28,7 @@ class SortVisualizer implements ISortArray
 
 	public function showInfo(): static
 	{
-		echo 'after: ' . implode(', ', $this->strategy->get()). PHP_EOL;
+		echo static::class . ' after: ' . implode(', ', $this->strategy->get()). PHP_EOL;
 
 		$this->strategy->showInfo();
 		// Вывести информацию
