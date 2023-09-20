@@ -13,8 +13,9 @@ $array = ArrayFabric::createShuffle(10);
 $decorator = new SortVisualizer();
 
 foreach ([
-	SortBubble::class,
-//	SortBubble2::class
+//	SortBubble::class,
+//	SortBubbleEnhanced::class
+	\Otus\ex06_SimpleSort\SortSelection::class
 ] as $sortClass)
 {
 	$sortStrategy = (new $sortClass)->set($array);

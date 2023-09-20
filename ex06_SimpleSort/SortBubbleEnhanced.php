@@ -6,24 +6,25 @@ class SortBubbleEnhanced extends SortAlgs
 {
 	public function sort(): static
 	{
-		$maxI = $this->length;
+		$maxI = $this->length - 1;
 
-		for ($i = 1; $i < $maxI - 1; $i++)
+		for ($i = $maxI; $i > 0; $i--)
 		{
-			$isThereAbySwaps = false;
-			for ($j = 0; $j < $i; $j++)
+			$isThereAnySwaps = false;
+			for ($j = 0; $j < $maxI; $j++)
 			{
 				if ($this->needToSwap($this->array[$j], $this->array[$j + 1]))
 				{
 					$this->swap($j, $j + 1);
-					$isThereAbySwaps = true;
+					$isThereAnySwaps = true;
 				}
 			}
-			if ($isThereAbySwaps === false)
+			if ($isThereAnySwaps === false)
 			{
 				break;
 			}
 		}
+
 		return $this;
 	}
 

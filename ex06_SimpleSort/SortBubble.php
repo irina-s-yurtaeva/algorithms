@@ -18,6 +18,7 @@ class SortBubble extends SortAlgs
 				}
 			}
 		}
+
 		return $this;
 	}
 
