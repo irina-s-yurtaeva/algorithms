@@ -13,7 +13,7 @@ class SortBubbleEnhanced extends SortAlgs
 			$isThereAnySwaps = false;
 			for ($j = 0; $j < $maxI; $j++)
 			{
-				if ($this->needToSwap($this->array[$j], $this->array[$j + 1]))
+				if ($this->needToSwap($j, $j + 1))
 				{
 					$this->swap($j, $j + 1);
 					$isThereAnySwaps = true;

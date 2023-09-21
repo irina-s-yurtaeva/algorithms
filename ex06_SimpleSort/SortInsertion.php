@@ -13,7 +13,7 @@ class SortInsertion extends SortAlgs
 			$inspected = $i;
 			for ($j = $i - 1; $j >= 0; $j--)
 			{
-				if ($this->needToSwap($this->array[$j], $this->array[$inspected]))
+				if ($this->needToSwap($j, $inspected))
 				{
 					$this->swap($inspected, $j);
 					$inspected = $j;

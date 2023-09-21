@@ -14,7 +14,7 @@ class SortInsertionWithAShift extends SortAlgs
 			$found = $i;
 			for ($j = $i - 1; $j >= 0; $j--)
 			{
-				if ($this->needToSwap($this->array[$j], $this->array[$inspected]))
+				if ($this->needToSwap($j, $inspected))
 				{
 					$found = $j;
 					continue;

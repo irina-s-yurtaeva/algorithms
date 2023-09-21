@@ -13,14 +13,21 @@ class PaintUtils
 	public const RESET_COLOR = "\e[0m";
 	public const CLEAR_SCREEN = "\e[2J";
 	public const HOME = "\e[H";
-	public const RCNL = "\e[0m" . PHP_EOL;
+	public const RESET_COLOR_AND_NEW_LINE = "\e[0m" . PHP_EOL;
 
-	protected int $termWidth = 100;
-	protected int $termHeight = 0;
+	public int $termWidth = 100;
+	protected int $termHeigh = 0;
 
 	public function __construct()
 	{
 		$this->termWidth = (int)exec('tput cols') - 1;
+		$this->termHeigh = (int)exec('tput lines') - 1;
+	}
+
+	public function getCursorPosition()
+	{
+//		echo "\e[6n";
+//		return ltrim($cursor, "\e");
 	}
 
 	public function gotoxy($x, $y)
@@ -34,7 +41,7 @@ class PaintUtils
 	}
 
 	// Draw single pixel with sub-pixel as lower block char
-	public function drawChar(array $upper, array $lower = [], $char = self::DEFAULT_PIXEL, $clean = false)
+	public function drawChar(array $upper, array $lower = [], $char = self::DEFAULT_PIXEL, $clean = true)
 	{
 		if (empty($upper) && empty($lower))
 		{
@@ -142,7 +149,7 @@ class PaintUtils
 
 	function showError($error)
 	{
-		echo $this->drawChar([200, 20, 70], [255,255,255], str_repeat(' ', 50)) . "\n";
+		echo $this->drawChar([200, 20, 70], [255,255,255], str_repeat(' ', 50), false) . "\n";
 		echo ' Error occurred' . str_repeat(' ', 50 - 15) . "\n";
 		echo str_repeat(' ', 50) . self::RCNL . PHP_EOL;
 		echo '  ' . colorHelp($error)  . "\n\n";

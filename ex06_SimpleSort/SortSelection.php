@@ -13,7 +13,7 @@ class SortSelection extends SortAlgs
 			$max = $i;
 			for ($j = $i - 1; $j >= 0; $j--)
 			{
-				if ($this->needToSwap($this->array[$j], $this->array[$max]))
+				if ($this->needToSwap($j, $max))
 				{
 					$max = $j;
 				}

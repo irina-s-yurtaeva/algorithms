@@ -20,7 +20,7 @@ class SortShell extends SortAlgs
 			{
 				for ($i = $j; $i >= $gap; $i -= $gap)
 				{
-					if ($this->needToSwap($this->array[$i - $gap], $this->array[$i]))
+					if ($this->needToSwap($i - $gap, $i))
 					{
 						$this->swap($i, $i - $gap);
 						continue;

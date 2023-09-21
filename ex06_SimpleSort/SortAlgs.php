@@ -26,10 +26,10 @@ abstract class SortAlgs implements ISortArray
 	abstract public function compare($one, $two): bool;
 
 
-	protected function needToSwap($one, $two): bool
+	protected function needToSwap($indexFrom, $indexTo): bool
 	{
 		$this->comparison++;
-		return $this->compare($one, $two);
+		return $this->compare($this->array[$indexFrom], $this->array[$indexTo]);
 	}
 
 	public function swap(int $indexFrom, int $indexTo): void
