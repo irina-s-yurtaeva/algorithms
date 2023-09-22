@@ -2,7 +2,7 @@
 
 namespace Otus\ex06_SimpleSort;
 
-class SortInsertionWithAShift extends SortAlgs
+class SortInsertionWithAShift extends SortInsertion
 {
 	public function run(): static
 	{
@@ -29,6 +29,7 @@ class SortInsertionWithAShift extends SortAlgs
 
 	public function swap(int $indexFrom, int $indexTo): void
 	{
+		$this->visualizer->onSwap($indexFrom, $indexTo);
 		$this->assignment += ($indexFrom - $indexTo);
 
 		$buffer = $this->array[$indexFrom];
@@ -37,5 +38,6 @@ class SortInsertionWithAShift extends SortAlgs
 			$this->array[$i] = $this->array[$i - 1];
 		}
 		$this->array[$indexTo] = $buffer;
+		$this->visualizer->onSwapped($indexFrom, $indexTo);
 	}
 }

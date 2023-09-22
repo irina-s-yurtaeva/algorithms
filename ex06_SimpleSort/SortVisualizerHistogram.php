@@ -11,7 +11,7 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 	private const DEFAULT_COLOR = [20, 34, 70];
 	private const COMPARE_COLOR = [138, 180, 235];
 	private const SWAP_COLOR = [];
-	private const DELAY = 50000;
+	private const DELAY = 5000;
 
 
 	public function __construct()
