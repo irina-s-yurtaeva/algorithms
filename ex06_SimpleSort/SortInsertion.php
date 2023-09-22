@@ -4,7 +4,7 @@ namespace Otus\ex06_SimpleSort;
 
 class SortInsertion extends SortAlgs
 {
-	public function sort(): static
+	public function run(): static
 	{
 		$maxI = $this->length;
 
@@ -26,10 +26,5 @@ class SortInsertion extends SortAlgs
 		}
 
 		return $this;
-	}
-
-	public function compare($one, $two): bool
-	{
-		return $one > $two;
 	}
 }

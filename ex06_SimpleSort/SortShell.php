@@ -6,7 +6,7 @@ class SortShell extends SortAlgs
 {
 	public int $partsCount = 2;
 
-	public function sort(): static
+	public function run(): static
 	{
 		$length = $this->length;
 
@@ -31,11 +31,5 @@ class SortShell extends SortAlgs
 		}
 
 		return $this;
-	}
-
-
-	public function compare($one, $two): bool
-	{
-		return $one > $two;
 	}
 }

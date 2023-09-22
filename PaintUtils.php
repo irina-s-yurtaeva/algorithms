@@ -13,6 +13,7 @@ class PaintUtils
 	public const RESET_COLOR = "\e[0m";
 	public const CLEAR_SCREEN = "\e[2J";
 	public const HOME = "\e[H";
+	public const CURSOR = "\e[6n";
 	public const RESET_COLOR_AND_NEW_LINE = "\e[0m" . PHP_EOL;
 
 	public int $termWidth = 100;
@@ -26,8 +27,22 @@ class PaintUtils
 
 	public function getCursorPosition()
 	{
-//		echo "\e[6n";
-//		return ltrim($cursor, "\e");
+		// Как это  сделать?
+		//		echo "\e[6n";
+		//		$cursor = fgets(STDIN);
+		//		$cursor = file_get_contents('php://output');
+		$cursor = exec('tput u7');
+		echo '1'.PHP_EOL;
+		var_dump($cursor);
+		echo '2'.PHP_EOL;
+		preg_match('/\[(\d*);(\d*)/', $cursor, $matches);
+		var_dump($matches);
+		return;
+		//		$cursor = trim(trim($cursor, "-e \e["), 'R;');
+		//		echo $cursor.PHP_EOL;
+
+
+
 	}
 
 	public function gotoxy($x, $y)

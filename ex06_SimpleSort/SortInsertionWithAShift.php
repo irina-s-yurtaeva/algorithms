@@ -4,7 +4,7 @@ namespace Otus\ex06_SimpleSort;
 
 class SortInsertionWithAShift extends SortAlgs
 {
-	public function sort(): static
+	public function run(): static
 	{
 		$maxI = $this->length;
 
@@ -37,10 +37,5 @@ class SortInsertionWithAShift extends SortAlgs
 			$this->array[$i] = $this->array[$i - 1];
 		}
 		$this->array[$indexTo] = $buffer;
-	}
-
-	public function compare($one, $two): bool
-	{
-		return $one > $two;
 	}
 }

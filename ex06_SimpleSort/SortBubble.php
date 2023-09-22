@@ -4,7 +4,7 @@ namespace Otus\ex06_SimpleSort;
 
 class SortBubble extends SortAlgs
 {
-	public function sort(): static
+	public function run(): static
 	{
 		$maxI = $this->length - 1;
 
@@ -20,10 +20,5 @@ class SortBubble extends SortAlgs
 		}
 
 		return $this;
-	}
-
-	public function compare($one, $two): bool
-	{
-		return $one > $two;
 	}
 }

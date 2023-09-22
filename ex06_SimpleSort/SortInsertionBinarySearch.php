@@ -4,7 +4,7 @@ namespace Otus\ex06_SimpleSort;
 
 class SortInsertionBinarySearch extends SortInsertionWithAShift
 {
-	public function sort(): static
+	public function run(): static
 	{
 		$maxI = $this->length;
 
@@ -33,10 +33,5 @@ class SortInsertionBinarySearch extends SortInsertionWithAShift
 		}
 
 		return $this->searchIndex($value, $fromIndex, $averageIndex - 1);
-	}
-
-	public function compare($one, $two): bool
-	{
-		return $one > $two;
 	}
 }
