@@ -4,7 +4,7 @@ namespace Otus\ex06_SimpleSort;
 
 class SortVisualizerLoader extends SortVisualizerAbstract
 {
-	public function onSort(): void
+	public function onSorted(int $length, int $assigment,int $comparisson): void
 	{
 	}
 

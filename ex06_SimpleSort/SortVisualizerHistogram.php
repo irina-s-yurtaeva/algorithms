@@ -6,12 +6,16 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 {
 	protected \Otus\PaintUtils $painter;
 	private int $vOffset = 2;
+	private int $vDelta = 2;
 	private int $hOffset = 3;
+	private float $scale;
 	private const BACKGROUND_COLOR = [200, 20, 70];
 	private const DEFAULT_COLOR = [20, 34, 70];
 	private const COMPARE_COLOR = [138, 180, 235];
 	private const SWAP_COLOR = [];
-	private const DELAY = 5000;
+	private const DELAY = 50000;
+	private const DEBUG = false;
+	private int $workSpaceHeight = 10;
 
 
 	public function __construct()
@@ -19,57 +23,137 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 		$this->painter = new \Otus\PaintUtils();
 	}
 
+	public function checkStrategy(\Otus\ex06_SimpleSort\SortAlgs $strategy): bool
+	{
+		if (count($strategy->get()) > $this->painter->termWidth || $strategy instanceof \Otus\ex06_SimpleSort\SortInsertionWithAShift)
+		{
+			return false;
+		}
+		$max = max($strategy->get());
+		if (is_int($max) || is_float($max))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public function setStrategy(\Otus\ex06_SimpleSort\SortAlgs $strategy): static
+	{
+		parent::setStrategy($strategy);
+		$max = max($strategy->get());
+		$this->scale = 1;
+		if ((is_int($max) || is_float($max)) && $this->workSpaceHeight < $max)
+		{
+			$this->scale = round($this->workSpaceHeight / $max, 3);
+		}
+		return $this;
+	}
+
+	public function setHeight(int $heightInLines): static
+	{
+		$this->workSpaceHeight = $heightInLines;
+		return $this;
+	}
+
 	public function onSort(): void
 	{
+		// TODO Calc vertical scale
 		$this->drawHistogram();
 		parent::onSort();
 	}
 
+	public function onSorted(int $length, int $assigment,int $comparisson): void
+	{
+		echo $this->strategy::class . PHP_EOL;
+	}
+
 	private function drawHistogram()
 	{
-		foreach ($this->strategy->get() as $number => $value)
+		for ($i = 0; $i <= ($this->workSpaceHeight + $this->vOffset); $i++)
 		{
+			$x = $this->workSpaceHeight - $i;
 			echo $this->painter->drawChar(
-				self::BACKGROUND_COLOR, [255,255,255], str_repeat(' ', $this->painter->termWidth), false
-				) . $this->painter::RESET_COLOR_AND_NEW_LINE;
+					self::BACKGROUND_COLOR, [255, 0, 255],
+					str_pad(0 < $x && $x < 10 ? $x : ' ', $this->hOffset - 1, ' ', STR_PAD_LEFT)
+					. '|' . str_repeat(' ', $this->painter->termWidth - $this->hOffset),
+					false
+				) . $this->painter::RESET_COLOR_AND_NEW_LINE
+			;
 		}
 
-		for ($i = 0; $i < $this->vOffset; $i++)
-		{
-			echo $this->painter->drawChar(
-					self::BACKGROUND_COLOR, [255,255,255], str_repeat(' ', $this->painter->termWidth), false
-				) . $this->painter::RESET_COLOR_AND_NEW_LINE;
-		}
 //		echo "\e7"; //Сохраняем курсор
 		echo "\e[s"; //Сохраняем курсор
-
+		if (self::DEBUG)
+		{
+			echo $this->painter->drawChar(
+				$color ?? self::DEFAULT_COLOR, [255, 255, 0], 'S', false
+			);
+			sleep(1);
+			echo "\e[" . ($this->vOffset + 1). "F\e[" . $this->hOffset. "C"; //Сместиться вверх на вертикальное смещение, вправо на горизонтальное.
+			echo $this->painter->drawChar(
+				$color ?? self::DEFAULT_COLOR, [0, 255, 255], '+', false
+			);
+			sleep(1);
+		}
+		echo "\e[u"; //Восстанавливает курсор
 		foreach ($this->strategy->get() as $number => $value)
 		{
-			echo "\e[" . ($this->vOffset + 1). "F\e[" . $this->hOffset. "C"; //Сместиться вверх на вертикальное смещение, вправо на горизонтальное.
-			// Это начальная точка.
-			// TODO: Как здесь запомнить позицию курсора, чтобы всегда на него переводить позицию?
-
-			$number++;
-
 			$this->drawHistogramVerticalLine($number, $value);
 
 //			echo "\e8"; //Восстанавливает курсор
-			echo "\e[u"; //Восстанавливает курсор
+			echo "\e[u"; //Восстанавливает курсор через CSI-последовательности
 		}
 	}
 
-	private function drawHistogramVerticalLine(int $xPosition, int $high, ?array $color = null)
+	private function setCursorTo(int $row, ?int $cell = null): void
 	{
-		echo "\e[" .$xPosition. "C"; // переместить вправо на x
-		for ($i = 1; $i <= $high; $i++)
+		// Перейти в начало координат. Это начальная точка.
+		echo "\e[" . ($this->vOffset) . "F";//Сместиться вверх на вертикальное смещение в первый столбец в строке
+		echo "\e[" . $this->hOffset . "C"; //Сместиться  вправо на горизонтальное смещение, не меняя строки.
+		// Теперь смещаемся на нужную линию гистограммы
+		$xPosition = $row + 1; // отсчет в CSI-последовательностях с 1 всегда. Т.е. 0 = 1 :(
+
+		echo "\e[" . $xPosition . "C"; // переместить вправо на x
+
+		if (!empty($cell))
+		{
+			echo "\e[" . $cell . "C";
+		}
+	}
+
+	private function drawHistogramVerticalLine(int $lineNumber, int $high, ?array $color = null): void
+	{
+		$workingColor = $color ?? self::DEFAULT_COLOR;
+
+		$this->setCursorTo($lineNumber);
+		$startNumber = 1;
+		if ($high === 0)
 		{
 			echo "\e[1D"; // переместить на 1 влево
+			echo "\e[1A"; // переместить на 1 вверх
+			echo $this->painter->drawChar(
+				self::BACKGROUND_COLOR, $workingColor,
+				'_',
+				false
+			);
+			$startNumber = 2;
+		}
+		$scaledHeight = ceil($high * $this->scale);
+		for ($i = $startNumber; $i <= $this->workSpaceHeight; $i++)
+		{
+			echo "\e[1D"; // переместить на 1 влево
+			echo "\e[1A"; // переместить на 1 вверх
 
 			echo $this->painter->drawChar(
-				$color ?? self::DEFAULT_COLOR, [255,255,0], ' '
+				$i <= $scaledHeight ? $workingColor : self::BACKGROUND_COLOR, [],
+				' ',
+				false
 			);
-			echo "\e[1A"; // переместить на 1 вверх
 		}
+
+		echo "\e[u"; //Восстанавливает курсор, который д.б. сохранён выше по ф-ции.
+
+		// Null value has not been drawn so lets fix it
 	}
 
 	public function onCompare(int $indexFrom, int $indexTo): void
@@ -86,9 +170,7 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 
 		] as [$x, $high, $color])
 		{
-			echo "\e[" . ($this->vOffset + 2). "F\e[" . $this->hOffset. "C"; //Сместиться вверх на вертикальное смещение, вправо на горизонтальное.
-			$this->drawHistogramVerticalLine($x + 1, $high, $color);
-			echo "\e[u"; //Восстанавливает курсор
+			$this->drawHistogramVerticalLine($x, $high, $color);
 		}
 
 		usleep($this::DELAY);
@@ -101,9 +183,7 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 
 			] as [$x, $high, $color])
 			{
-				echo "\e[" . ($this->vOffset + 2). "F\e[" . $this->hOffset. "C"; //Сместиться вверх на вертикальное смещение, вправо на горизонтальное.
-				$this->drawHistogramVerticalLine($x + 1, $high, $color);
-				echo "\e[u"; //Восстанавливает курсор
+				$this->drawHistogramVerticalLine($x, $high, $color);
 			}
 			usleep($this::DELAY);
 		}
@@ -113,15 +193,11 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 	{
 		echo "\e[s"; //Сохраняем курсор
 		foreach ([
-			[$indexFrom, $this->strategy->get()[$indexFrom], self::BACKGROUND_COLOR],
 			[$indexFrom, $this->strategy->get()[$indexTo], self::DEFAULT_COLOR],
-			[$indexTo, $this->strategy->get()[$indexTo], self::BACKGROUND_COLOR],
 			[$indexTo, $this->strategy->get()[$indexFrom], self::DEFAULT_COLOR],
 		] as [$x, $high, $color])
 		{
-			echo "\e[" . ($this->vOffset + 2). "F\e[" . $this->hOffset. "C"; //Сместиться вверх на вертикальное смещение, вправо на горизонтальное.
-			$this->drawHistogramVerticalLine($x + 1, $high, $color);
-			echo "\e[u"; //Восстанавливает курсор
+			$this->drawHistogramVerticalLine($x, $high);
 		}
 
 		usleep($this::DELAY);

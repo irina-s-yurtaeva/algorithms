@@ -35,7 +35,7 @@ abstract class SortAlgs
 	{
 		$this->visualizer?->onSort();
 		$this->run();
-		$this->visualizer?->onSorted();
+		$this->visualizer?->onSorted($this->length, $this->assignment, $this->comparison);
 
 		return $this;
 	}
@@ -65,16 +65,5 @@ abstract class SortAlgs
 		$this->array[$indexFrom] = $this->array[$indexTo];
 		$this->array[$indexTo] = $buffer;
 		$this->visualizer->onSwapped($indexFrom, $indexTo);
-	}
-
-	public function __toString(): string
-	{
-		return "Elements: $this->length, Assignments: $this->assignment, Comparison: $this->comparison";
-	}
-
-	public function showResult(): static
-	{
-		echo $this . PHP_EOL;
-		return $this;
 	}
 }

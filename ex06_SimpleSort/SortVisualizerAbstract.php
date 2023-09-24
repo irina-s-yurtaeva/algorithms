@@ -5,6 +5,7 @@ namespace Otus\ex06_SimpleSort;
 abstract class SortVisualizerAbstract
 {
 	protected ?SortAlgs $strategy = null;
+	protected ?float $timestamp = null;
 
 	public function setStrategy(\Otus\ex06_SimpleSort\SortAlgs $strategy): static
 	{
@@ -12,15 +13,17 @@ abstract class SortVisualizerAbstract
 		return $this;
 	}
 
-	public function onSort(): void
+	public function checkStrategy(\Otus\ex06_SimpleSort\SortAlgs $strategy): bool
 	{
-		echo $this->strategy::class . ' before: ' . implode(', ', $this->strategy?->get()). PHP_EOL;
+		return true;
 	}
 
-	public function onSorted(): void
+	public function onSort(): void
 	{
-		echo $this->strategy::class . ' after: ' . implode(', ', $this->strategy?->get()). PHP_EOL;
+		$this->timestamp = microtime(true);
 	}
+
+	abstract public function onSorted(int $length, int $assigment,int $comparisson): void;
 
 	abstract public function onCompare(int $indexFrom, int $indexTo): void;
 
