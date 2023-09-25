@@ -14,7 +14,7 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 	private const COMPARE_COLOR = [223, 207, 190];
 	private const FONT_COLOR = [255,255,255];
 	private const SHIFT_COLOR = [69,184,172];
-	private const DELAY = 50000;
+	private const DELAY = 5000;
 	private const DEBUG = false;
 	private int $workSpaceHeight = 10;
 
