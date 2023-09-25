@@ -11,8 +11,9 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 	private float $scale;
 	private const BACKGROUND_COLOR = [200, 20, 70];
 	private const DEFAULT_COLOR = [20, 34, 70];
-	private const COMPARE_COLOR = [138, 180, 235];
-	private const SWAP_COLOR = [];
+	private const COMPARE_COLOR = [223, 207, 190];
+	private const FONT_COLOR = [255,255,255];
+	private const SHIFT_COLOR = [69,184,172];
 	private const DELAY = 50000;
 	private const DEBUG = false;
 	private int $workSpaceHeight = 10;
@@ -25,7 +26,7 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 
 	public function checkStrategy(\Otus\ex06_SimpleSort\SortAlgs $strategy): bool
 	{
-		if (count($strategy->get()) > $this->painter->termWidth || $strategy instanceof \Otus\ex06_SimpleSort\SortInsertionWithAShift)
+		if (count($strategy->get()) > $this->painter->termWidth/* || $strategy instanceof \Otus\ex06_SimpleSort\SortInsertionWithAShift*/)
 		{
 			return false;
 		}
@@ -69,12 +70,12 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 
 	private function drawHistogram()
 	{
-		for ($i = 0; $i <= ($this->workSpaceHeight + $this->vOffset); $i++)
+		for ($i = 0; $i < ($this->workSpaceHeight + $this->vOffset); $i++)
 		{
 			$x = $this->workSpaceHeight - $i;
 			echo $this->painter->drawChar(
 					self::BACKGROUND_COLOR, [255, 0, 255],
-					str_pad(0 < $x && $x < 10 ? $x : ' ', $this->hOffset - 1, ' ', STR_PAD_LEFT)
+					str_pad(0 < $x && $x < $this->workSpaceHeight ? $x : ' ', $this->hOffset - 1, ' ', STR_PAD_LEFT)
 					. '|' . str_repeat(' ', $this->painter->termWidth - $this->hOffset),
 					false
 				) . $this->painter::RESET_COLOR_AND_NEW_LINE
@@ -145,7 +146,7 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 			echo "\e[1A"; // переместить на 1 вверх
 
 			echo $this->painter->drawChar(
-				$i <= $scaledHeight ? $workingColor : self::BACKGROUND_COLOR, [],
+				$i <= $scaledHeight ? $workingColor : self::BACKGROUND_COLOR, self::FONT_COLOR,
 				' ',
 				false
 			);
@@ -206,5 +207,27 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 	public function onSwapped(int $indexFrom, int $indexTo): void
 	{
 
+	}
+
+	public function onShift(int $indexFrom, int $indexTo): void
+	{
+		echo "\e[s"; //Сохраняем курсор
+		for ($i = $indexFrom; $i >= $indexTo; $i--)
+		{
+			$this->drawHistogramVerticalLine($i, $this->strategy->get()[$i], self::SHIFT_COLOR);
+		}
+
+		usleep($this::DELAY);
+	}
+
+	public function onShifted(int $indexFrom, int $indexTo): void
+	{
+		echo "\e[s"; //Сохраняем курсор
+		for ($i = $indexFrom; $i >= $indexTo; $i--)
+		{
+			$this->drawHistogramVerticalLine($i, $this->strategy->get()[$i], self::DEFAULT_COLOR);
+		}
+
+		usleep($this::DELAY);
 	}
 }
