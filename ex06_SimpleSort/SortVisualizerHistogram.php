@@ -5,8 +5,8 @@ namespace Otus\ex06_SimpleSort;
 class SortVisualizerHistogram extends SortVisualizerAbstract
 {
 	protected \Otus\PaintUtils $painter;
-	private int $vOffset = 2;
-	private int $vDelta = 2;
+	private int $vOffset = 1;
+	private int $vTopGap = 1;
 	private int $hOffset = 3;
 	private float $scale;
 	private const BACKGROUND_COLOR = [200, 20, 70];
@@ -70,12 +70,12 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 
 	private function drawHistogram()
 	{
-		for ($i = 0; $i < ($this->workSpaceHeight + $this->vOffset); $i++)
+		for ($i = 0; $i < ($this->workSpaceHeight + $this->vOffset + $this->vTopGap); $i++)
 		{
-			$x = $this->workSpaceHeight - $i;
+			$x = $this->workSpaceHeight - $i + $this->vTopGap;
 			echo $this->painter->drawChar(
 					self::BACKGROUND_COLOR, [255, 0, 255],
-					str_pad(0 < $x && $x < $this->workSpaceHeight ? $x : ' ', $this->hOffset - 1, ' ', STR_PAD_LEFT)
+					str_pad(0 < $x && $x <= $this->workSpaceHeight ? $x : ' ', $this->hOffset - 1, ' ', STR_PAD_LEFT)
 					. '|' . str_repeat(' ', $this->painter->termWidth - $this->hOffset),
 					false
 				) . $this->painter::RESET_COLOR_AND_NEW_LINE

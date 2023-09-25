@@ -23,9 +23,9 @@ else
 //$array = ArrayFabric::createSorted(10);
 
 foreach ([
-	ArrayFabric::createShuffle(5),
+//	ArrayFabric::createShuffle(5),
 	ArrayFabric::createShuffle(10),
-//	ArrayFabric::createShuffle(20),
+	ArrayFabric::createShuffle(20),
 //	ArrayFabric::createShuffle(100),
 //	ArrayFabric::createShuffle(1000),
 //	ArrayFabric::createShuffle(10000),
@@ -38,7 +38,7 @@ foreach ([
 //		\Otus\ex06_SimpleSort\SortSelection::class,
 //		\Otus\ex06_SimpleSort\SortInsertion::class,
 //		\Otus\ex06_SimpleSort\SortInsertionWithAShift::class,
-//		\Otus\ex06_SimpleSort\SortInsertionBinarySearch::class,
+		\Otus\ex06_SimpleSort\SortInsertionBinarySearch::class,
 //		\Otus\ex06_SimpleSort\SortShell::class,
 	] as $sortClass)
 	{
