@@ -11,7 +11,7 @@ class SortExternal2 extends SortAlgs
 	protected array $destinationFiles = [];
 	protected int $countOfActiveFiles = 2;
 	protected int $order = 1;
-	protected int $pieceSize = 5;
+	protected int $pieceSize = 100;
 
 	private function getDestinationFile(): TestFile
 	{
@@ -37,6 +37,7 @@ class SortExternal2 extends SortAlgs
 		$sourceFiles = $this->divideIntoFiles($rawFile);
 		do
 		{
+			$this->checkTime();
 			$this->destinationFiles = [];
 			$this->order *= -1;
 			array_map(fn($f) => $f->rewind(), $sourceFiles);
@@ -49,12 +50,14 @@ class SortExternal2 extends SortAlgs
 				$min = $sieve->getNext();
 				while($min !== null)
 				{
+					$this->checkTime();
 					$destinationFile->add($min);
 					$min = $sieve->getNext();
 				}
 
 				$sourceFiles = array_filter($sourceFiles, fn (TestFile $item) => $item->valid());
 			}
+			$this->checkTime();
 
 			if (count($this->destinationFiles) > 1)
 			{

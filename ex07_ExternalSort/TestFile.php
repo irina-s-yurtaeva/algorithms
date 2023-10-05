@@ -54,7 +54,7 @@ class TestFile implements \Iterator
 			$this->filePointerSteps[] = $this->filePointer;
 
 			$res = fgets($file);
-			echo 'fgets: ' . $res;
+
 			if ($res === false || feof($file))
 			{
 				$this->filePointer = null;
@@ -129,6 +129,7 @@ class TestFile implements \Iterator
 			shuffle($baseSet);
 			$set = array_slice($baseSet, 0, $length);
 			fwrite($fp, implode(PHP_EOL, $set) . PHP_EOL);
+			$this->stringsCount += count($set) + 1;
 			$stringsLeft -= count($set);
 		}
 		fclose($fp);
@@ -153,6 +154,7 @@ class TestFile implements \Iterator
 		}
 
 		fwrite($fp, (is_array($string) ? implode(PHP_EOL, $string) : $string) . PHP_EOL);
+		$this->stringsCount += (is_array($string) ? count($string) : 0) + 1;
 		fclose($fp);
 
 		return $this;

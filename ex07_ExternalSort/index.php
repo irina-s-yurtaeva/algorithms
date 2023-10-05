@@ -35,10 +35,18 @@ ASCII;
 	return;
 }
 
-foreach ([
-	\Otus\ex07_ExternalSort\TestFile::getInstanceForTheTest(__DIR__ . '/testFiles/source_20.txt', 20, 5),
-] as $file)
+echo
+	str_pad('Algorithm', 20, ' ', STR_PAD_LEFT)  . ' | ' .
+	str_pad('Counts', 7, ' ', STR_PAD_LEFT). ' | ' .
+	str_pad('Time', 10, ' ', STR_PAD_LEFT) .
+	PHP_EOL
+;
+
+foreach (range(2, 6) as $numberOrder)
 {
+	$file = \Otus\ex07_ExternalSort\TestFile::getInstanceForTheTest(
+		__DIR__ . '/testFiles/source_pow_' . $numberOrder . '.txt', 10 ** $numberOrder, 5 ** $numberOrder
+	);
 	foreach ([
 		\Otus\ex07_ExternalSort\SortExternal2::class
 	] as $sortClass)
@@ -47,7 +55,14 @@ foreach ([
 		/* @var TestFile $file */
 		/* @var SortExternal2 $sortAlg */
 		$sortAlg = new $sortClass;
-		$sortAlg->sortFile($file, __DIR__ . '/testFiles/' . $className . '_' . $file->getLength() . '.txt');
+		$sortAlg->sortFile($file, __DIR__ . '/testFiles/' . $className . '_' . $numberOrder . '.txt');
+
+		echo
+			str_pad($className, 20, ' ', STR_PAD_LEFT) . ' | ' .
+			str_pad(10 ** $numberOrder, 7, ' ', STR_PAD_LEFT). ' | ' .
+			str_pad($sortAlg->getAnswer(), 10, ' ', STR_PAD_LEFT).
+			PHP_EOL
+		;
 	}
 }
 
