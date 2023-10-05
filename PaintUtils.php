@@ -156,7 +156,7 @@ class PaintUtils
 				$lastLower = $lower;
 				$lastUpper = $upper;
 			}
-			echo self::RCNL;
+			echo self::RESET_COLOR_AND_NEW_LINE;
 		}
 
 		imagedestroy($thumb);
@@ -166,7 +166,7 @@ class PaintUtils
 	{
 		echo $this->drawChar([200, 20, 70], [255,255,255], str_repeat(' ', 50), false) . "\n";
 		echo ' Error occurred' . str_repeat(' ', 50 - 15) . "\n";
-		echo str_repeat(' ', 50) . self::RCNL . PHP_EOL;
+		echo str_repeat(' ', 50) . self::RESET_COLOR_AND_NEW_LINE . PHP_EOL;
 		echo '  ' . colorHelp($error)  . "\n\n";
 	}
 
@@ -199,7 +199,7 @@ class PaintUtils
  #+#       #+#     #+#    #+#    #+#   #+#+#    #+#         
 ###       ###     #################    ####    ###   v
 ASCII;
-		echo self::RCNL . PHP_EOL;
+		echo self::RESET_COLOR . PHP_EOL;
 
 		$help = sprintf("Usage `%s` [PARAMS] <FILE>\n", __FILE__);
 		echo $this->drawLowerPixel([255, 20, 70], '');

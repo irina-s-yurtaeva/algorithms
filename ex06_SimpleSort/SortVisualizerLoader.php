@@ -8,6 +8,11 @@ class SortVisualizerLoader extends SortVisualizerAbstract
 	{
 	}
 
+	public function onTimeExpired(int $length): void
+	{
+
+	}
+
 
 	public function onCompare(int $indexFrom, int $indexTo): void
 	{
@@ -25,6 +30,16 @@ class SortVisualizerLoader extends SortVisualizerAbstract
 	}
 
 	public function onSwap(int $indexFrom, int $indexTo): void
+	{
+
+	}
+
+	public function onSelect(int $indexFrom, int $indexTo): void
+	{
+
+	}
+
+	public function onDeselect(int $indexFrom, int $indexTo): void
 	{
 
 	}

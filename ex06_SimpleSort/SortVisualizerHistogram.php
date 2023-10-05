@@ -59,13 +59,28 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 	public function onSort(): void
 	{
 		// TODO Calc vertical scale
+		echo $this->strategy::class . ':'. PHP_EOL;
+
 		$this->drawHistogram();
 		parent::onSort();
+
 	}
 
 	public function onSorted(int $length, int $assigment,int $comparisson): void
 	{
-		echo $this->strategy::class . PHP_EOL;
+		$timeResult = (microtime(true) - $this->timestamp) * 1000000;
+		echo  str_pad('Size: ' . $length, 10)
+			. ' | Assigments: ' . str_pad($assigment, 10)
+			. ' | Comparissons: ' . str_pad($comparisson, 13)
+			. ' | Time: ' . str_pad(round($timeResult), 10) . PHP_EOL . PHP_EOL
+		;
+	}
+
+	public function onTimeExpired(int $length): void
+	{
+		echo ' Size: ' . str_pad($length, 10)
+			. ' Interrupted!!!' . PHP_EOL . PHP_EOL
+		;
 	}
 
 	private function drawHistogram()
@@ -209,10 +224,10 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 
 	}
 
-	public function onShift(int $indexFrom, int $indexTo): void
+	public function onSelect(int $indexFrom, int $indexTo): void
 	{
 		echo "\e[s"; //Сохраняем курсор
-		for ($i = $indexFrom; $i >= $indexTo; $i--)
+		for ($i = $indexFrom; $i <= $indexTo; $i++)
 		{
 			$this->drawHistogramVerticalLine($i, $this->strategy->get()[$i], self::SHIFT_COLOR);
 		}
@@ -220,10 +235,10 @@ class SortVisualizerHistogram extends SortVisualizerAbstract
 		usleep($this::DELAY);
 	}
 
-	public function onShifted(int $indexFrom, int $indexTo): void
+	public function onDeselect(int $indexFrom, int $indexTo): void
 	{
 		echo "\e[s"; //Сохраняем курсор
-		for ($i = $indexFrom; $i >= $indexTo; $i--)
+		for ($i = $indexFrom; $i <= $indexTo; $i++)
 		{
 			$this->drawHistogramVerticalLine($i, $this->strategy->get()[$i], self::DEFAULT_COLOR);
 		}

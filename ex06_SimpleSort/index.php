@@ -2,7 +2,6 @@
 namespace Otus\AlgebraicAlgs;
 
 use Otus\ex06_SimpleSort\ArrayFabric;
-use Otus\ex06_SimpleSort\SortBubble;
 use Otus\ex06_SimpleSort\SortBubbleEnhanced;
 use Otus\ex06_SimpleSort\SortVisualizerHistogram;
 use Otus\ex06_SimpleSort\SortVisualizerLoader;
@@ -23,24 +22,29 @@ else
 //$array = ArrayFabric::createSorted(10);
 
 foreach ([
+//	[3,1,4,0,2],
 //	ArrayFabric::createShuffle(5),
-	ArrayFabric::createShuffle(10),
-	ArrayFabric::createShuffle(20),
+//	ArrayFabric::createShuffle(10),
+//	ArrayFabric::createShuffle(20),
 	ArrayFabric::createShuffle(100),
 	ArrayFabric::createShuffle(1000),
 	ArrayFabric::createShuffle(10000),
 	ArrayFabric::createShuffle(100000),
+	ArrayFabric::createShuffle(1000000),
+	ArrayFabric::createShuffle(10000000),
 ] as $array)
 {
 	foreach ([
 //		\Otus\ex06_SimpleSort\SortBubble::class,
 //		\Otus\ex06_SimpleSort\SortBubbleEnhanced::class,
-		\Otus\ex06_SimpleSort\SortSelection::class,
+//		\Otus\ex06_SimpleSort\SortSelection::class,
 //		\Otus\ex06_SimpleSort\SortInsertion::class,
 //		\Otus\ex06_SimpleSort\SortInsertionWithAShift::class,
 //		\Otus\ex06_SimpleSort\SortInsertionBinarySearch::class,
 //		\Otus\ex06_SimpleSort\SortShell::class,
-		\Otus\ex06_SimpleSort\SortHeap::class,
+//		\Otus\ex06_SimpleSort\SortHeap::class,
+		\Otus\ex06_SimpleSort\SortQuick::class,
+		\Otus\ex06_SimpleSort\SortMerge::class,
 	] as $sortClass)
 	{
 		$sortStrategy = (new $sortClass);
@@ -52,4 +56,4 @@ foreach ([
 	}
 }
 
-__halt_compiler();
+//__halt_compiler();
