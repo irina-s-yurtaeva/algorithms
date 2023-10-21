@@ -1,6 +1,6 @@
 <?php
 
-namespace Otus\ex06_SimpleSort;
+namespace Otus;
 
 class ArrayFabric
 {

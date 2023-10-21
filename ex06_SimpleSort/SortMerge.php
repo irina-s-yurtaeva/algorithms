@@ -40,6 +40,9 @@ class SortMerge extends SortAlgs
 			$index = $this->needToSwap($a, $b) ? $b++ : $a++;
 			$buffer[$m++] = $this->array[$index];
 		}
+
+		$this->checkTime();
+
 		while ($a <= $medianIndex)
 		{
 			$buffer[$m++] = $this->array[$a++];

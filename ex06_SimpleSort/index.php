@@ -1,7 +1,7 @@
 <?php
 namespace Otus\AlgebraicAlgs;
 
-use Otus\ex06_SimpleSort\ArrayFabric;
+use Otus\ArrayFabric;
 use Otus\ex06_SimpleSort\SortBubbleEnhanced;
 use Otus\ex06_SimpleSort\SortVisualizerHistogram;
 use Otus\ex06_SimpleSort\SortVisualizerLoader;
