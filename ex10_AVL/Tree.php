@@ -6,7 +6,6 @@ use Otus\Timer;
 
 abstract class Tree
 {
-	public const CODE = 'Abstract';
 	protected const TIMEOUT_FOR_BUILDING = 120;
 	protected const TIMEOUT_FOR_SEARCHING = 20;
 	protected const TIMEOUT_FOR_REMOVING = 20;
@@ -15,6 +14,10 @@ abstract class Tree
 	protected int $length = 0;
 	protected Timer $timer;
 	protected Node $root;
+
+	abstract protected function getName(): string;
+
+	abstract protected function createNode(mixed $value): Node;
 
 	public function makeBinaryTreeFromArray(array $array, int $timeout = 20): \Otus\Result
 	{
@@ -109,8 +112,25 @@ abstract class Tree
 		return $this->timer->check();
 	}
 
+	protected function makeABinaryTree(): ?Node
+	{
+		if (empty($this->array))
+		{
+			return null;
+		}
 
-	abstract protected function makeABinaryTree(): ?Node;
+		$this->root = $this->createNode(reset($this->array));
+		while (($value = next($this->array)) !== false)
+		{
+			$this->checkTime();
+			$this->root->append($this->createNode($value));
+		}
 
-	abstract public function insert(int $value): Node;
+		return $this->root;
+	}
+
+	public function insert(int $value): Node
+	{
+		return $this->root->append($this->createNode($value));
+	}
 }

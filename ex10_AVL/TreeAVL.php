@@ -2,15 +2,15 @@
 
 namespace Otus\ex10_AVL;
 
-class TreeBinary extends Tree
+class TreeAVL extends Tree
 {
 	public function getName(): string
 	{
-		return 'Simple binary';
+		return 'Adelson-Velsky & Longdis';
 	}
 
 	protected function createNode(mixed $value): Node
 	{
-		return new NodeBinary($value);
+		return new NodeAVL($value);
 	}
 }

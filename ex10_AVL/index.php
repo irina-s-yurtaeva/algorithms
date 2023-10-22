@@ -20,7 +20,7 @@ ASCII;
 }
 
 echo
-	str_pad('Algorithm', 20, ' ', STR_PAD_LEFT)  . ' | ' .
+	str_pad('Algorithm', 25, ' ', STR_PAD_LEFT)  . ' | ' .
 	str_pad('Build (time)', 13, ' ', STR_PAD_LEFT). ' | ' .
 	str_pad('Build (memo)', 13, ' ', STR_PAD_LEFT). ' | ' .
 	str_pad('Search (res)', 13, ' ', STR_PAD_LEFT). ' | ' .
@@ -36,9 +36,10 @@ try
 {
 	foreach ([
 //		[3,1, 7, 4, 0, 2,5],
+		[3,1, 7, 4, 0, 2,5, 10, 45, 78, 12, 16, 6],
 		//	ArrayFabric::createShuffle(5),
 		//	ArrayFabric::createShuffle(10),
-			ArrayFabric::createShuffle(20),
+//			ArrayFabric::createShuffle(20),
 //			ArrayFabric::createShuffle(100),
 //			ArrayFabric::createShuffle(1000),
 //			ArrayFabric::createShuffle(10000),
@@ -53,27 +54,25 @@ try
 		echo "Tree nodes: $count and testing elements: $elementsCount" . PHP_EOL;
 
 		foreach ([
-			\Otus\ex10_AVL\TreeBinary::class,
-			//		\Otus\ex10_AVL\TreeAVL::class,
-			//		\Otus\ex10_AVL\TreeTreap::class,
-		] as $treelass)
+//			\Otus\ex10_AVL\TreeBinary::class,
+			\Otus\ex10_AVL\TreeAVL::class,
+		] as $treeClass)
 		{
 			/* @var \Otus\ex10_AVL\Tree $tree */
-			$tree = new $treelass;
-
+			$tree = new $treeClass;
 			$makeATreeResult = $tree->makeBinaryTreeFromArray($array);
 			$searchResult = $tree->searchElements($elements);
-			$removeResult = $tree->removeElements($elements);
+//			$removeResult = $tree->removeElements($elements);
 
 			echo
-				str_pad($treelass::CODE, 20, ' ', STR_PAD_LEFT) . ' | ' .
+				str_pad($tree->getName(), 25, ' ', STR_PAD_LEFT) . ' | ' .
 				str_pad($makeATreeResult->getTimeUsage(), 13, ' ', STR_PAD_LEFT). ' | ' .
 				str_pad($makeATreeResult->getMemoryUsage(), 13, ' ', STR_PAD_LEFT). ' | ' .
 				str_pad($searchResult->getAffectedElementsCount() . '/' . $searchResult->getElementsCount(), 13, ' ', STR_PAD_LEFT). ' | ' .
 				str_pad($searchResult->getTimeUsage(), 13, ' ', STR_PAD_LEFT). ' | ' .
 				str_pad($searchResult->getMemoryUsage(), 13, ' ', STR_PAD_LEFT). ' | ' .
-				str_pad($removeResult->getTimeUsage(), 13, ' ', STR_PAD_LEFT). ' | ' .
-				str_pad($removeResult->getMemoryUsage(), 13, ' ', STR_PAD_LEFT). ' | ' .
+//				str_pad($removeResult->getTimeUsage(), 13, ' ', STR_PAD_LEFT). ' | ' .
+//				str_pad($removeResult->getMemoryUsage(), 13, ' ', STR_PAD_LEFT). ' | ' .
 				PHP_EOL
 			;
 		}
@@ -118,6 +117,8 @@ catch (\Otus\TimeoutException $e)
 }
 catch (\Throwable $e)
 {
+	?><pre><b>$e: </b><?php print_r($e)?></pre><?php
+
 	echo 'My error: ' . $e->getMessage();
 }
 
