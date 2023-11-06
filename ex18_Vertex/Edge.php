@@ -19,7 +19,9 @@ class Edge implements Visitable
 	public function __construct(Vertex $vertexFrom, Vertex $vertexTo)
 	{
 		$this->tail = $vertexFrom;
+		$vertexFrom->addOutgoingEdge($this);
 		$this->head = $vertexTo;
+		$vertexTo->addIncomingEdge($this);
 	}
 
 	public function getTail(): Vertex
@@ -36,4 +38,10 @@ class Edge implements Visitable
 	{
 		$visitor->visit($this);
 	}
+
+	public function __toString()
+	{
+		return 'Edge [' . $this->getTail()->getId() . '->' . $this->getHead()->getId() . ']';
+	}
+
 }

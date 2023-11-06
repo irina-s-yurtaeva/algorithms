@@ -6,12 +6,12 @@ use Otus\Timer;
 
 class Graph
 {
-	protected $vertecies = [];
-	protected $edges = [];
+	protected array $vertecies = [];
+	protected array $edges = [];
 
 	public function addVertex(Vertex $v): static
 	{
-		$this[$v->getId()] = $v;
+		$this->vertecies[$v->getId()] = $v;
 
 		return $this;
 	}
@@ -23,17 +23,22 @@ class Graph
 
 	public function getVertex(mixed $id): ?Vertex
 	{
-		return isset($this->vertecies[$id]) ? $this->vertecies[$id] : null;
+		return $this->vertecies[$id] ?? null;
 	}
 
-	public function addEdge(): bool
+	public function getVertices(): array
 	{
-
+		return $this->vertecies;
 	}
 
+	public function addEdge(Edge $edge): static
+	{
+		$this->edges[] = $edge;
 
+		return $this;
+	}
 
-	public static function initFromEdgeData(array $data)
+	public static function initFromEdgeData(array $data): static
 	{
 		$graph = new static();
 		foreach ($data as $edgeData)
@@ -49,6 +54,7 @@ class Graph
 			}
 			$graph->addEdge(new Edge($edgeData[0], $edgeData[1]));
 		}
-	}
 
+		return $graph;
+	}
 }

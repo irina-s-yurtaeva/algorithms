@@ -25,12 +25,12 @@ class Vertex implements Visitable
 		return $this->id;
 	}
 
-	public function putIncomingEdge(Edge $edge)
+	public function addIncomingEdge(Edge $edge)
 	{
 		$this->incoming[] = $edge;
 	}
 
-	public function putOutgoingEdge(Edge $edge)
+	public function addOutgoingEdge(Edge $edge)
 	{
 		$this->outgoing[] = $edge;
 	}
@@ -54,5 +54,10 @@ class Vertex implements Visitable
 	public function accept(Visitor $visitor): void
 	{
 		$visitor->visit($this);
+	}
+
+	public function __toString()
+	{
+		return 'Vertex: ' . $this->getId();
 	}
 }

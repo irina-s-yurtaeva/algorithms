@@ -25,11 +25,27 @@ class KosarajuAlg
 	{
 		$result = new Result();
 
-		$inverseOrdersearcher = new VisitorInverseDFSearcher();
-		foreach ($this->getGraph()->get)
-		$vertices = ->visit(->get)
+		$inverseOrderSearcher = new VisitorDFSearcher(false);
+		$firstDFS = [];
+		foreach ($this->getGraph()->getVertices() as $v)
+		{
+			$firstDFS = array_merge($firstDFS, $inverseOrderSearcher->calc($v));
+		}
+		$firstDFS = array_reverse($firstDFS);
 
+		$forwardOrderSearcher = new VisitorDFSearcher();
+		$stronglyConnectedSubGraphs = [];
+		foreach ($firstDFS as $v)
+		{
+			$subGraph = $forwardOrderSearcher->calc($v);
+			if (!empty($subGraph))
+			{
+				$stronglyConnectedSubGraphs[] = $subGraph;
+			}
+		}
+		$result->setData($stronglyConnectedSubGraphs);
 
+		return $result;
 	}
 
 }

@@ -2,33 +2,53 @@
 
 namespace Otus\ex18_Vertex;
 
-class VisitorInverseDFSearcher extends Visitor
+class VisitorDFSearcher extends Visitor
 {
 	protected array $visited = [];
 	protected array $stack = [];
+	protected bool $forwardOrder;
 
-	public function visit(Vertex|Edge $node): Vertex
+	public function __construct(bool $forwardOrder = true)
 	{
-		$this->stack[] = $node;
-		$this->cookStack();
-
-		return $node;
+		$this->forwardOrder = $forwardOrder;
 	}
 
-	private function cookStack()
+	public function visit(Vertex|Edge $node): void
 	{
-		$v = array_pop($this->stack);
-		$this->visited[] = $v;
-		/* @var Vertex $v */
-		$v->accept($this);
-		/**
-		 * @var $edge Edge
-		 */
-		foreach ($v->getOutgoingEdges() as $edge)
+		$this->stack[] = $node;
+		$this->visited[] = $node;
+	}
+
+	public function calc(Vertex|Edge $node): array
+	{
+		$this->stack = [];
+		$this->dfs($node);
+
+		return array_reverse($this->stack);
+	}
+
+	protected function dfs(Vertex $v)
+	{
+		if (in_array($v, $this->visited))
 		{
-			$edge->getHead()->getOutgoingEdges();
+			return;
 		}
 
+		$v->accept($this);
 
+		if ($this->forwardOrder)
+		{
+			foreach ($v->getOutgoingEdges() as $edge)
+			{
+				$this->dfs($edge->getHead());
+			}
+		}
+		else
+		{
+			foreach ($v->getIncomingEdges() as $edge)
+			{
+				$this->dfs($edge->getTail());
+			}
+		}
 	}
 }

@@ -33,20 +33,32 @@ try
 				['c', 'g'],
 				['d', 'c'],
 				['d', 'h'],
+				['h', 'd'],
 				['h', 'g'],
 				['g', 'f'],
 				['f', 'g'],
 				['e', 'a'],
+				['e', 'f'],
 			],
 			'Kosaraju' => [
-
+				['g', 'f'],
+				['h', 'd', 'c'],
+				['a', 'b', 'e'],
 			]
 		],
 	] as $graphData)
 	{
-		$result = new \Otus\TestResult();
-		$graph = Graph::initFromEdgeData($graphData);
-		print (new KosarajuAlg($graph))->getGraphs();
+		$graph = Graph::initFromEdgeData($graphData['data']);
+		$result = (new KosarajuAlg($graph))->apply();
+
+		foreach ($result->getData() as $subGraph)
+		{
+			echo 'Strongly connected Subgraph: ' . PHP_EOL;
+			foreach ($subGraph as $v)
+			{
+				echo $v . PHP_EOL;
+			}
+		}
 
 	}
 }
