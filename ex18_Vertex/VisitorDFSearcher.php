@@ -7,6 +7,7 @@ class VisitorDFSearcher extends Visitor
 	protected array $visited = [];
 	protected array $stack = [];
 	protected bool $forwardOrder;
+	protected bool $recursionWay = false;
 
 	public function __construct(bool $forwardOrder = true)
 	{
@@ -22,32 +23,73 @@ class VisitorDFSearcher extends Visitor
 	public function calc(Vertex|Edge $node): array
 	{
 		$this->stack = [];
-		$this->dfs($node);
+		// Just for fun
+		if ($this->recursionWay === true)
+			$this->recurse($node);
+		else
+			$this->iterate($node);
 
 		return array_reverse($this->stack);
 	}
 
-	protected function dfs(Vertex $v)
+	protected function iterate(Vertex $vInput): void
+	{
+		$iterationStack = [$vInput];
+
+		while (!empty($iterationStack))
+		{
+			$v = array_pop($iterationStack);
+			if (in_array($v, $this->visited))
+			{
+				continue;
+			}
+
+			$v->accept($this);
+
+			if ($this->forwardOrder)
+			{
+				foreach ($v->getOutgoingEdges() as $edge)
+				{
+					if (!in_array($edge->getHead(), $this->visited))
+					{
+						array_push($iterationStack, $edge->getHead());
+					}
+				}
+			}
+			else
+			{
+				foreach ($v->getIncomingEdges() as $edge)
+				{
+					if (!in_array($edge->getTail(), $this->visited))
+					{
+						array_push($iterationStack, $edge->getTail());
+					}
+				}
+			}
+		}
+	}
+
+	protected function recurse(Vertex $v): void
 	{
 		if (in_array($v, $this->visited))
 		{
 			return;
 		}
 
-		$v->accept($this);
+		$v->accept($this); // === $visitor->visit($this)
 
 		if ($this->forwardOrder)
 		{
 			foreach ($v->getOutgoingEdges() as $edge)
 			{
-				$this->dfs($edge->getHead());
+				$this->recurse($edge->getHead());
 			}
 		}
 		else
 		{
 			foreach ($v->getIncomingEdges() as $edge)
 			{
-				$this->dfs($edge->getTail());
+				$this->recurse($edge->getTail());
 			}
 		}
 	}

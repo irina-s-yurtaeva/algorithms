@@ -59,7 +59,6 @@ try
 				echo $v . PHP_EOL;
 			}
 		}
-
 	}
 }
 catch (\Otus\TimeoutException $e)
