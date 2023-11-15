@@ -13,6 +13,8 @@ class Vertex implements Visitable
 	/** @var Edge[] */
 	protected array $incoming = [];
 
+	protected array $extraProps = [];
+
 
 	public function __construct(mixed $id, ?int $weight = null)
 	{
@@ -59,5 +61,15 @@ class Vertex implements Visitable
 	public function __toString()
 	{
 		return 'Vertex: ' . $this->getId();
+	}
+
+	public function __set(string $name, $value): void
+	{
+		$this->extraProps[$name] = $value;
+	}
+
+	public function __get(string $name): mixed
+	{
+		return $this->extraProps[$name];
 	}
 }

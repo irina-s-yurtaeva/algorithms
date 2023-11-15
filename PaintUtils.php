@@ -40,9 +40,6 @@ class PaintUtils
 		return;
 		//		$cursor = trim(trim($cursor, "-e \e["), 'R;');
 		//		echo $cursor.PHP_EOL;
-
-
-
 	}
 
 	public function gotoxy($x, $y)
@@ -73,11 +70,24 @@ class PaintUtils
 			($clean ? self::RESET_COLOR : '');
 	}
 
+
 	// Draw background color (upper pixel)
 	function drawUpperPixel(array $color)
 	{
 		$color = implode(';', $color);
 		return "\e[48;2;{$color}m";
+	}
+
+
+	// Draw foreground color (lower pixel)
+	public function colorFont(array $color = []): string
+	{
+		return $this->drawLowerPixel($color, '');
+	}
+
+	public function resetColor(): string
+	{
+		return self::RESET_COLOR;
 	}
 
 	// Draw foreground color (lower pixel)

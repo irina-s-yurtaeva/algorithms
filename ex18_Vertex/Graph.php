@@ -38,21 +38,28 @@ class Graph
 		return $this;
 	}
 
+	public function getEdges(): array
+	{
+		return $this->edges;
+	}
+
 	public static function initFromEdgeData(array $data): static
 	{
 		$graph = new static();
 		foreach ($data as $edgeData)
 		{
-			foreach ($edgeData as $key => $vId)
+			[$tail, $head, $weight] = $edgeData;
+			$vs = [];
+			foreach ([$tail, $head] as $vId)
 			{
-				if (!($v = $graph->getVertex($vId)))
+				if (($v = $graph->getVertex($vId)) === null)
 				{
 					$v = new Vertex($vId);
 					$graph->addVertex($v);
 				}
-				$edgeData[$key] = $v;
+				$vs[] = $v;
 			}
-			$graph->addEdge(new Edge($edgeData[0], $edgeData[1]));
+			$graph->addEdge(new Edge($vs[0], $vs[1], $weight));
 		}
 
 		return $graph;

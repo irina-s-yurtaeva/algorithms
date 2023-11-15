@@ -16,12 +16,14 @@ class Edge implements Visitable
 	protected Vertex $tail;
 	protected Vertex $head;
 
-	public function __construct(Vertex $vertexFrom, Vertex $vertexTo)
+	public function __construct(Vertex $vertexFrom, Vertex $vertexTo, ?int $weight = null)
 	{
 		$this->tail = $vertexFrom;
 		$vertexFrom->addOutgoingEdge($this);
 		$this->head = $vertexTo;
 		$vertexTo->addIncomingEdge($this);
+
+		$this->weight = $weight;
 	}
 
 	public function getTail(): Vertex
@@ -32,6 +34,11 @@ class Edge implements Visitable
 	public function getHead(): Vertex
 	{
 		return $this->head;
+	}
+
+	public function getWeight(): ?int
+	{
+		return $this->weight;
 	}
 
 	public function accept(Visitor $visitor): void
