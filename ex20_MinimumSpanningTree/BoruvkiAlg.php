@@ -80,20 +80,24 @@ class BoruvkiAlg
 							foreach ($newGraph->getVertices() as $v1)
 								$nextComponent->addVertex($v1);
 							foreach ($newGraph->getEdges() as $e)
-								$nextComponent->addEdge($e);
+							{
+								if (!in_array($e, $nextComponent->getEdges()))
+								{
+									$nextComponent->addEdge($e);
+								}
+							}
 							$newGraph->consumed = true;
 							break;
 						}
 					}
 				}
 				$nextComponents[] = $nextComponent;
-				$components = array_filter($components, fn($newGraph) => !isset($newGraph->consumed));
+				$components = array_filter($components, fn($newGraph) => $newGraph->consumed !== true);
 			}
 			$components = $nextComponents;
 		}
 		$resultGraph = reset($components);
-		$res = array_reduce($resultGraph->getEdges(), fn($edge, $carry) => $carry + $edge->getWeight());
-		echo '$res: ', $res."\n";
+		$res = array_reduce($resultGraph->getEdges(), fn($carry, $edge) => $carry + $edge->getWeight(), 0);
 
 		$result->setData([$res]);
 		$result->finalize();
