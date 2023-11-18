@@ -48,7 +48,7 @@ class BoruvkiAlg
 					$probedVertex = $this->graph->getVertex($vertex->getId());
 					$edges = [...$edges, ...$probedVertex->getOutgoingEdges(), ...$probedVertex->getIncomingEdges()];
 				}
-				uasort($edges, fn(Edge $e1, Edge $e2) => $e1->getWeight() > $e2->getWeight());
+				uasort($edges, fn(Edge $e1, Edge $e2) => $e1->getWeight() > $e2->getWeight() || ($e1->getWeight() == $e2->getWeight() && $e1->getSortedId() > $e2->getSortedId()));
 				/** @var Edge $edge */
 				foreach ($edges as $edge)
 				{

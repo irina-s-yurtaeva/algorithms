@@ -32,6 +32,13 @@ class Edge implements Visitable
 		return $this->getTail()->getId() . $this->getHead()->getId();
 	}
 
+	public function getSortedId(): string
+	{
+		$id = [$this->getTail()->getId(), $this->getHead()->getId()];
+		sort($id);
+		return implode('', $id);
+	}
+
 	public function getTail(): Vertex
 	{
 		return $this->tail;
