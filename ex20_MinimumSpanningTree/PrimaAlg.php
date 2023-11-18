@@ -35,9 +35,9 @@ class PrimaAlg extends Alg
 		$result = new Result();
 		$graphVertices = $this->graph->getVertices();
 		$countGraphVertices = count($graphVertices);
-		$vertex = array_slice($graphVertices, rand(0, $countGraphVertices), 1);
+		$vertex = array_slice($graphVertices, rand(0, $countGraphVertices-1), 1);
 		$newGraph = new Graph();
-		$v = reset($vertex);
+		$v = array_shift($vertex);
 		$newGraph->addVertex($v);
 		while (count($newGraph->getVertices()) != $countGraphVertices)
 		{

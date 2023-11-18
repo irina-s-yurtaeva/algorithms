@@ -10,7 +10,7 @@ include_once __DIR__ . '/../Autoload.php';
 
 $painter = new \Otus\PaintUtils();
 echo <<<ASCII
-	Minimal skeleton tree
+	Minimum Spanning Tree
 ASCII;
 echo PHP_EOL;
 
@@ -44,7 +44,7 @@ try
 	] as $graphData)
 	{
 		$graph = ex18_Vertex\Graph::initFromEdgeData($graphData['data']);
-		foreach ([PrimaAlg::class, KraskalaAlg::class] as $mstAlg)
+		foreach ([PrimaAlg::class, KraskalaAlg::class, BoruvkiAlg::class] as $mstAlg)
 		{
 			/** @var Alg $alg */
 			$alg = (new $mstAlg($graph));

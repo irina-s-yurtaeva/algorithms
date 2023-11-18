@@ -15,6 +15,7 @@ class Edge implements Visitable
 	 */
 	protected Vertex $tail;
 	protected Vertex $head;
+	protected array $extraProps = [];
 
 	public function __construct(Vertex $vertexFrom, Vertex $vertexTo, ?int $weight = null)
 	{
@@ -24,6 +25,11 @@ class Edge implements Visitable
 		$vertexTo->addIncomingEdge($this);
 
 		$this->weight = $weight;
+	}
+
+	public function getId(): string
+	{
+		return $this->getTail()->getId() . $this->getHead()->getId();
 	}
 
 	public function getTail(): Vertex
@@ -49,6 +55,17 @@ class Edge implements Visitable
 	public function __toString()
 	{
 		return 'Edge [' . $this->getTail()->getId() . '->' . $this->getHead()->getId() . ']';
+	}
+
+
+	public function __set(string $name, $value): void
+	{
+		$this->extraProps[$name] = $value;
+	}
+
+	public function __get(string $name): mixed
+	{
+		return $this->extraProps[$name];
 	}
 
 }

@@ -8,6 +8,8 @@ class Graph
 {
 	protected array $vertecies = [];
 	protected array $edges = [];
+	protected array $extraProps = [];
+
 
 	public function addVertex(Vertex $v): static
 	{
@@ -16,13 +18,21 @@ class Graph
 		return $this;
 	}
 
-	public function hasVertex(mixed $id): bool
+	public function hasVertex(int|string|Vertex $id): bool
 	{
+		if ($id instanceof Vertex)
+		{
+			$id = $id->getId();
+		}
 		return isset($this->vertecies[$id]);
 	}
 
-	public function getVertex(mixed $id): ?Vertex
+	public function getVertex(int|string|Vertex $id): ?Vertex
 	{
+		if ($id instanceof Vertex)
+		{
+			$id = $id->getId();
+		}
 		return $this->vertecies[$id] ?? null;
 	}
 
@@ -63,5 +73,16 @@ class Graph
 		}
 
 		return $graph;
+	}
+
+
+	public function __set(string $name, $value): void
+	{
+		$this->extraProps[$name] = $value;
+	}
+
+	public function __get(string $name): mixed
+	{
+		return $this->extraProps[$name];
 	}
 }
