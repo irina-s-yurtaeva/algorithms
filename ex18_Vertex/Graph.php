@@ -53,6 +53,31 @@ class Graph
 		return $this->edges;
 	}
 
+	public function getPathMatrix(): array
+	{
+		$vertices = $this->getVertices();
+		uasort($vertices, fn($v1, $v2) => $v1->getId() > $v2->getId());
+		$matrix = [];
+		$row = [];
+		/* @var Vertex $vertex */
+		foreach ($vertices as $vertex)
+		{
+			$row[$vertex->getId()] = null;
+		}
+
+		foreach ($vertices as $vertex)
+		{
+			$matrix[$vertex->getId()] = $row;
+			$matrix[$vertex->getId()][$vertex->getId()] = 0;
+			foreach ($vertex->getOutgoingEdges() as $edge)
+			{
+				$matrix[$vertex->getId()][$edge->getHead()->getId()] = $edge->getWeight();
+			}
+		}
+
+		return $matrix;
+	}
+
 	public static function initFromEdgeData(array $data): static
 	{
 		$graph = new static();
