@@ -43,7 +43,7 @@ try
 	] as $graphData)
 	{
 		$graph = ex18_Vertex\Graph::initFromEdgeData($graphData['data']);
-		foreach ([FloydWarshallAlg::class] as $mstAlg)
+		foreach ([FloydWarshallAlg::class, BellmanFordAlg::class] as $mstAlg)
 		{
 			/** @var Alg $alg */
 			$alg = (new $mstAlg($graph));
