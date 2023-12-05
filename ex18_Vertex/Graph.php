@@ -110,4 +110,22 @@ class Graph
 	{
 		return $this->extraProps[$name];
 	}
+
+	public function __clone()
+	{
+		$vertecies = $this->vertecies;
+		$this->vertecies = [];
+		foreach ($vertecies as $id => $v)
+		{
+			$this->vertecies[$id] = new Vertex($id);
+		}
+		$edges = $this->edges;
+		$this->edges = [];
+		foreach ($edges as $edge)
+		{
+			$tail = $this->vertecies[$edge->getTail()->getId()];
+			$head = $this->vertecies[$edge->getHead()->getId()];
+			$this->addEdge(new Edge($tail, $head, $edge->getWeight()));
+		}
+	}
 }

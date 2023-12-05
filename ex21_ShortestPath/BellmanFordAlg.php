@@ -53,31 +53,31 @@ class BellmanFordAlg
 		{
 			$bellmanFordMatrix = [1 => $resultMatrix[$s->getId()]];
 
-			for ($i = 2; $i < count($this->graph->getVertices()); $i++)
+			for ($i = 2; $i <= count($this->graph->getVertices()); $i++)
 			{
 				$bellmanFordMatrix[$i] = $bellmanFordMatrix[$i - 1];
 				/* @var Edge $edge */
 				foreach ($this->graph->getEdges() as $edge)
 				{
-					if ($s->getId() === $edge->getHead()->getId() ||
-						$s->getId() === $edge->getTail()->getId())
+					if (
+						 $s->getId() === $edge->getHead()->getId()
+					)
 					{
 						continue;
 					}
 
-					$current = $bellmanFordMatrix[$i][$edge->getTail()->getId()];
-					if ($bellmanFordMatrix[$i][$edge->getHead()->getId()] !== null)
+					$current = $bellmanFordMatrix[$i][$edge->getHead()->getId()];
+					if ($bellmanFordMatrix[$i][$edge->getTail()->getId()] !== null)
 					{
-						$possible = $bellmanFordMatrix[$i][$edge->getHead()->getId()] + $edge->getWeight();
+						$possible = $bellmanFordMatrix[$i][$edge->getTail()->getId()] + $edge->getWeight();
 
 						if ($current === null || $possible < $current)
 						{
-							$bellmanFordMatrix[$i][$edge->getTail()->getId()] = $possible;
+							$bellmanFordMatrix[$i][$edge->getHead()->getId()] = $possible;
 						}
 					}
 				}
 			}
-			?><pre><b>$bellmanFordMatrix: </b><?php print_r($bellmanFordMatrix)?></pre><?php
 
 			$resultMatrix[$s->getId()] = end($bellmanFordMatrix);
 		}

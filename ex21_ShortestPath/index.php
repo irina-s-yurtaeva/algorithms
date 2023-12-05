@@ -1,7 +1,6 @@
 <?php
 
 namespace Otus\ex21_ShortestPath;
-
 use Otus\Alg;
 use Otus\ex18_Vertex;
 use Otus\Result;
@@ -16,7 +15,7 @@ echo PHP_EOL;
 
 
 echo
-	str_pad('Algorithm', 25, ' ', STR_PAD_LEFT)  . ' | ' .
+	str_pad('Algorithm', 37, ' ', STR_PAD_LEFT)  . ' | ' .
 	str_pad('Time', 13, ' ', STR_PAD_LEFT). ' | ' .
 	str_pad('Memo', 13, ' ', STR_PAD_LEFT). ' | ' .
 	PHP_EOL
@@ -43,7 +42,7 @@ try
 	] as $graphData)
 	{
 		$graph = ex18_Vertex\Graph::initFromEdgeData($graphData['data']);
-		foreach ([FloydWarshallAlg::class, BellmanFordAlg::class] as $mstAlg)
+		foreach ([FloydWarshallAlg::class, BellmanFordAlg::class, DijkstraAlg::class] as $mstAlg)
 		{
 			/** @var Alg $alg */
 			$alg = (new $mstAlg($graph));
@@ -53,7 +52,7 @@ try
 			if ($graphData['answer'] === $result->getData())
 			{
 				echo
-					str_pad($alg->getName(), 25, ' ', STR_PAD_LEFT)  . ' | ' .
+					str_pad($alg->getName(), 37, ' ', STR_PAD_LEFT) . ' | ' .
 					str_pad($result->getTimeUsage(), 13, ' ', STR_PAD_LEFT). ' | ' .
 					str_pad($result->getMemoryUsage(), 13, ' ', STR_PAD_LEFT). ' | ' .
 					PHP_EOL
@@ -63,7 +62,7 @@ try
 			{
 				echo $painter->colorFont([200, 20, 70]);
 				echo
-					str_pad($alg->getName(), 25, ' ', STR_PAD_LEFT)  . ' | ' .
+					str_pad($alg->getName(), 37, ' ', STR_PAD_LEFT) . ' | ' .
 					str_pad('Error!', 13, ' ', STR_PAD_LEFT). ' | ' .
 					str_pad('Error!', 13, ' ', STR_PAD_LEFT). ' | ' .
 					PHP_EOL

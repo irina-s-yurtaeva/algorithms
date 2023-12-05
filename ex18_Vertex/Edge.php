@@ -54,6 +54,13 @@ class Edge implements Visitable
 		return $this->weight;
 	}
 
+	public function setWeight(?int $weight): static
+	{
+		$this->weight = $weight;
+
+		return $this;
+	}
+
 	public function accept(Visitor $visitor): void
 	{
 		$visitor->visit($this);
@@ -61,7 +68,7 @@ class Edge implements Visitable
 
 	public function __toString()
 	{
-		return 'Edge [' . $this->getTail()->getId() . '->' . $this->getHead()->getId() . ']';
+		return 'Edge [' . $this->getTail()->getId() . '->' . $this->getHead()->getId() . ' weight: ' . $this->weight . ']';
 	}
 
 
