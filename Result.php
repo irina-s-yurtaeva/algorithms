@@ -4,26 +4,26 @@ namespace Otus;
 
 class Result
 {
-	private int $timeStart;
-	private int $timeFinish;
+	private array $timeStart;
+	private array $timeFinish;
 	private int $memoryStart;
 	private int $memoryFinish;
 	private ?array $data = null;
 
 	public function __construct()
 	{
-		$this->timeStart = hrtime()[0];
+		$this->timeStart = hrtime();
 		$this->memoryStart = memory_get_usage();
 	}
 
 	public function getTimeStart(): int
 	{
-		return $this->timeStart;
+		return $this->timeStart[0];
 	}
 
 	public function finalize(): static
 	{
-		$this->timeFinish = hrtime()[0];
+		$this->timeFinish = hrtime();
 		$this->memoryFinish = memory_get_usage();
 
 		return $this;
@@ -38,7 +38,13 @@ class Result
 	{
 		if ($this->isFinalized())
 		{
-			return round($this->timeFinish - $this->timeStart, 2) . ' sec';
+			$sec = $this->timeFinish[0] - $this->timeStart[0];
+			if ($sec > 0)
+			{
+				return $sec . ' sec';
+			}
+
+			return round(($this->timeFinish[1] - $this->timeStart[1]) / 1000, 2) . ' microSec';
 		}
 
 		return 'Not finished';
