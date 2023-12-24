@@ -8,5 +8,12 @@ abstract class HashStorage
 
 	abstract function add($key, $value): static;
 
+	abstract function delete($key): static;
+
 	abstract function hashKey(int $key): ?int;
+
+	function getStatistic(): string
+	{
+		return '';
+	}
 }

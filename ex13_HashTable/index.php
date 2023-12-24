@@ -44,14 +44,14 @@ $dataSets = [/*[
 	]
 ];
 
-$hashStorages = [new HashStorageChains(), new HashStorageOpenAddressLinear()];
+$hashStorages = [new HashStorageChains(), new HashStorageOpenAddressLinear(), new HashStorageOpenAddressPirson()];
 echo
 	str_pad('Hash alg', 25, ' ', STR_PAD_LEFT)  . ' | ' .
 	str_pad('Insert (time)', 15, ' ', STR_PAD_LEFT). ' | ' .
 	str_pad('Insert (memo)', 15, ' ', STR_PAD_LEFT). ' | ' .
 	str_pad('Remove (time)', 15, ' ', STR_PAD_LEFT). ' | ' .
 	str_pad('Remove (memo)', 15, ' ', STR_PAD_LEFT). ' | ' .
-	str_pad('Delta (memo)', 15, ' ', STR_PAD_LEFT). ' | ' .
+	str_pad('Statistic', 35, ' ', STR_PAD_LEFT). ' | ' .
 	PHP_EOL
 ;
 
@@ -74,8 +74,25 @@ try
 			$result->getMemoryUsage(),
 			$result->getTimeUsage(),
 		];
+
+		$result = new \Otus\Result();
+		$dataSets = array_reverse($dataSets);
+		foreach ($dataSets as $dataSet)
+		{
+			foreach ($dataSet as $data)
+			{
+				$hashStorage->delete($data[0]);
+			}
+		}
+		$result->finalize();
+
+		$memoryResults[] = $result->getMemoryUsage();
+		$memoryResults[] = $result->getTimeUsage();
+
 		echo str_pad($hashStorage->getName(), 25, ' ', STR_PAD_LEFT) . ' | ';
 		array_walk($memoryResults, function($item) {echo str_pad($item, 15, ' ', STR_PAD_LEFT) . ' | '; });
+		echo str_pad($hashStorage->getStatistic(), 35, ' ', STR_PAD_LEFT) . ' | ';
+
 		echo PHP_EOL;
 	}
 }

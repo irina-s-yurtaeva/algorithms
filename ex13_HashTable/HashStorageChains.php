@@ -38,4 +38,35 @@ class HashStorageChains extends HashStorage
 	{
 		return $key % $this->size;
 	}
+
+	public function delete($key): static
+	{
+		$hashedKey = $this->hashKey($key);
+
+		if (isset($this->storage[$hashedKey]))
+		{
+			$linkChain = $this->storage[$hashedKey];
+			$prev = null;
+			while ($linkChain && $linkChain->getKey() !== $key)
+			{
+				$prev = $linkChain;
+				$linkChain = $linkChain->getNext();
+			}
+
+			if ($linkChain)
+			{
+				$next = $linkChain->getNext();
+				if ($prev instanceof HashChain)
+				{
+					$prev->setNext($next);
+				}
+				else
+				{
+					$this->storage[$hashedKey] = $next;
+				}
+			}
+		}
+
+		return $this;
+	}
 }
