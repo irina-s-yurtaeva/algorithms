@@ -6,16 +6,16 @@ include_once __DIR__ . '/../Autoload.php';
 $painter = new \Otus\PaintUtils();
 
 $dataSets = [/*[
-			'arm' => 34,
-			'back' => 45,
-			'calf' => 56,
-			'd_liver' => 67,
-			'ear' => 78,
-			'forehead' => 89,
-			'gallbladder' => 90,
-			'head' => 1,
-			'intestine  s' => 12,
-			'joint' => 23
+			[34, 'arm'],
+			[45, 'back'],
+			[56, 'calf'],
+			[67, 'd_liver'],
+			[78, 'ear'],
+			[89, 'forehead'],
+			[90, 'gallbladder'],
+			[1, 'head'],
+			[12, 'intestine  s'],
+			[23, 'joint'],
 		], */
 	[
 		[1, 'ter Stegen'],
@@ -44,7 +44,12 @@ $dataSets = [/*[
 	]
 ];
 
-$hashStorages = [new HashStorageChains(), new HashStorageOpenAddressLinear(), new HashStorageOpenAddressPirson()];
+$hashStorages = [
+	new HashStorageChains(),
+	new HashStorageOpenAddressLinear(),
+	new HashStorageOpenAddressPirson(),
+	new HashStorageOpenAddressSquare()
+];
 echo
 	str_pad('Hash alg', 25, ' ', STR_PAD_LEFT)  . ' | ' .
 	str_pad('Insert (time)', 15, ' ', STR_PAD_LEFT). ' | ' .
@@ -60,7 +65,7 @@ try
 	/* @var HashStorage $hashStorage */
 	foreach ($hashStorages as $hashStorage)
 	{
-		$result = new \Otus\Result();
+		$insertResult = new \Otus\Result();
 		foreach ($dataSets as $dataSet)
 		{
 			foreach ($dataSet as $data)
@@ -68,14 +73,14 @@ try
 				$hashStorage->add(...$data);
 			}
 		}
-		$result->finalize();
+		$insertResult->finalize();
 
 		$memoryResults = [
-			$result->getMemoryUsage(),
-			$result->getTimeUsage(),
+			$insertResult->getMemoryUsage(),
+			$insertResult->getTimeUsage(),
 		];
 
-		$result = new \Otus\Result();
+		$removeResult = new \Otus\Result();
 		$dataSets = array_reverse($dataSets);
 		foreach ($dataSets as $dataSet)
 		{
@@ -84,10 +89,10 @@ try
 				$hashStorage->delete($data[0]);
 			}
 		}
-		$result->finalize();
+		$removeResult->finalize();
 
-		$memoryResults[] = $result->getMemoryUsage();
-		$memoryResults[] = $result->getTimeUsage();
+		$memoryResults[] = $removeResult->getMemoryUsage();
+		$memoryResults[] = $removeResult->getTimeUsage();
 
 		echo str_pad($hashStorage->getName(), 25, ' ', STR_PAD_LEFT) . ' | ';
 		array_walk($memoryResults, function($item) {echo str_pad($item, 15, ' ', STR_PAD_LEFT) . ' | '; });

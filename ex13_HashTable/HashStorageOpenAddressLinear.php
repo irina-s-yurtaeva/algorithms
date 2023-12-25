@@ -9,8 +9,6 @@ class HashStorageOpenAddressLinear extends HashStorageOpenAddress
 		return 'Linear open address';
 	}
 
-
-
 	protected function generateHashKey(int $key, int $index): int
 	{
 		return ($key + $index) % $this->size;
