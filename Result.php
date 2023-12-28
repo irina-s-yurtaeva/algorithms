@@ -39,12 +39,21 @@ class Result
 		if ($this->isFinalized())
 		{
 			$sec = $this->timeFinish[0] - $this->timeStart[0];
+
 			if ($sec > 0)
 			{
 				return $sec . ' sec';
 			}
 
-			return round(($this->timeFinish[1] - $this->timeStart[1]) / 1000, 2) . ' microSec';
+			$base = 1000;
+			$microSec = $this->timeFinish[1] - $this->timeStart[1];
+			$power = max(ceil(log($microSec, $base)) - 1, 0);
+
+			$value = round($microSec / $base ** $power, 2);
+
+			$name = [0 => 'nanoS', 1 => 'microS', 2 => 'milliS'];
+
+			return $value . ' ' . $name[$power];
 		}
 
 		return 'Not finished';

@@ -7,6 +7,16 @@ class HashStorageChains extends HashStorage
 	/*@var HashChain[] $storage */
 	private array $storage = [];
 
+	public function setSize(int $size): static
+	{
+		if (empty($this->storage))
+		{
+			$this->size = $size;
+		}
+
+		return $this;
+	}
+
 	public function getName(): string
 	{
 		return 'Chains storage';
