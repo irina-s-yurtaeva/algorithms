@@ -4,9 +4,7 @@ namespace Otus\ex13_HashTable;
 
 abstract class HashStorageOpenAddress extends HashStorage
 {
-	private int $collisions = 0;
-	private int $countOfElements = 0;
-	protected int $size = 10;
+
 	/*@var HashTuple[] $storage */
 	protected array $storage = [];
 
@@ -39,7 +37,7 @@ abstract class HashStorageOpenAddress extends HashStorage
 		return $this;
 	}
 
-	public function hashKey(int $key): ?int
+	public function hashKey($key): ?int
 	{
 		$i = 0;
 		$hashKey = null;
@@ -77,7 +75,7 @@ abstract class HashStorageOpenAddress extends HashStorage
 		}
 	}
 
-	abstract protected function generateHashKey(int $key, int $index): int;
+	abstract protected function generateHashKey(string $key, int $index): int;
 
 	public function searchKey(int $key): ?int
 	{
@@ -117,12 +115,17 @@ abstract class HashStorageOpenAddress extends HashStorage
 		return $this;
 	}
 
-	public function getStatistic(): string
+	public function get($key): mixed
 	{
-		return implode(' ', [
-			'count:', $this->countOfElements,
-			'collisions:', $this->collisions,
-			'size:', $this->size,
-		]);
+		if (($hashedKey = $this->searchKey($key))
+			&& isset($this->storage[$hashedKey])
+			&& $this->storage[$hashedKey] instanceof HashTuple
+		)
+		{
+			return $this->storage[$hashedKey]->getValue();
+		}
+
+		return null;
 	}
+
 }

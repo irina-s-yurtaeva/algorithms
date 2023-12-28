@@ -9,8 +9,10 @@ class HashStorageOpenAddressSquare extends HashStorageOpenAddress
 		return 'Square open address';
 	}
 
-	protected function generateHashKey(int $key, int $index): int
+	protected function generateHashKey(string $key, int $index): int
 	{
-		return ($key + ($index + $index * $index) / 2) % $this->size;
+		$intKey = preg_match("/\D+/", $key) === false ? intval($key) : $this->convertKeyIntoInt($key);
+
+		return ($intKey + ($index + $index * $index) / 2) % $this->size;
 	}
 }

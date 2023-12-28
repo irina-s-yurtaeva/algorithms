@@ -4,7 +4,6 @@ namespace Otus\ex13_HashTable;
 
 class HashStorageChains extends HashStorage
 {
-	private int $size = 10;
 	/*@var HashChain[] $storage */
 	private array $storage = [];
 
@@ -17,6 +16,7 @@ class HashStorageChains extends HashStorage
 	{
 		$hashedKey = $this->hashKey($key);
 		$chain = new HashChain($key, $value);
+		$this->countOfElements++;
 		if (isset($this->storage[$hashedKey]))
 		{
 			$lastOne = $this->storage[$hashedKey];
@@ -24,6 +24,8 @@ class HashStorageChains extends HashStorage
 			{
 				$lastOne = $next;
 			}
+			$this->collisions++;
+
 			$lastOne->setNext($chain);
 		}
 		else
@@ -34,9 +36,32 @@ class HashStorageChains extends HashStorage
 		return $this;
 	}
 
-	public function hashKey(int $key): int
+	function get($key): mixed
 	{
-		return $key % $this->size;
+		$hashedKey = $this->hashKey($key);
+
+		if (isset($this->storage[$hashedKey]))
+		{
+			$linkChain = $this->storage[$hashedKey];
+			while ($linkChain && $linkChain->getKey() !== $key)
+			{
+				$linkChain = $linkChain->getNext();
+			}
+
+			if ($linkChain)
+			{
+				return $linkChain->getValue();
+			}
+		}
+
+		return null;
+	}
+
+	public function hashKey(string $key): int
+	{
+		$intKey = preg_match("/\D+/", $key) === false ? intval($key) : $this->convertKeyIntoInt($key);
+
+		return $intKey % $this->size;
 	}
 
 	public function delete($key): static

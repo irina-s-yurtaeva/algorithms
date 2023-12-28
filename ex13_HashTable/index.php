@@ -76,8 +76,8 @@ try
 		$insertResult->finalize();
 
 		$memoryResults = [
-			$insertResult->getMemoryUsage(),
 			$insertResult->getTimeUsage(),
+			$insertResult->getMemoryUsage(),
 		];
 
 		$removeResult = new \Otus\Result();
@@ -91,8 +91,8 @@ try
 		}
 		$removeResult->finalize();
 
-		$memoryResults[] = $removeResult->getMemoryUsage();
 		$memoryResults[] = $removeResult->getTimeUsage();
+		$memoryResults[] = $removeResult->getMemoryUsage();
 
 		echo str_pad($hashStorage->getName(), 25, ' ', STR_PAD_LEFT) . ' | ';
 		array_walk($memoryResults, function($item) {echo str_pad($item, 15, ' ', STR_PAD_LEFT) . ' | '; });
