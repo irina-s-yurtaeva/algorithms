@@ -2,8 +2,6 @@
 
 namespace Otus\ex18_Vertex;
 
-use Otus\ArrayFabric;
-
 include_once __DIR__ . '/../Autoload.php';
 $painter = new \Otus\PaintUtils();
 if (isset($argv[1]))

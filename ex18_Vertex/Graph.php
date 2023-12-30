@@ -56,7 +56,7 @@ class Graph
 	public function getPathMatrix(): array
 	{
 		$vertices = $this->getVertices();
-		uasort($vertices, fn($v1, $v2) => $v1->getId() > $v2->getId());
+		uasort($vertices, fn($v1, $v2) => $v1->getId() > $v2->getId() ? 1: 0);
 		$matrix = [];
 		$row = [];
 		/* @var Vertex $vertex */
