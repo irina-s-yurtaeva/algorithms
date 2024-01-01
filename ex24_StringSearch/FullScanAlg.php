@@ -20,7 +20,7 @@ class FullScanAlg extends ScanAlg
 		$searchDiapason = strlen($this->text) - strlen($this->pattern);
 
 		$found = false;
-		while ($t < $searchDiapason)
+		while ($t <= $searchDiapason)
 		{
 			$m = 0;
 			$found = true;

@@ -22,6 +22,16 @@ try
 			'pattern' => 'rong',
 			'answer' => [2]
 		],
+		[
+			'text' => 'Strong string',
+			'pattern' => 'ring',
+			'answer' => [9]
+		],
+		[
+			'text' => 'Strong string',
+			'pattern' => 'sring',
+			'answer' => [null]
+		],
 	] as $scanData)
 	{
 		echo 'Text: "' . $scanData['text'] . '" pattern: "' . $scanData['pattern'] . '"' . PHP_EOL;
@@ -32,6 +42,7 @@ try
 			$alg = (new $alg($scanData['text'], $scanData['pattern']));
 			/** @var \Otus\Result $result */
 			$result = $alg->apply();
+//			echo '$result: ', implode(', ', $result->getData())."\n";
 
 			$column = [
 				'Error!!!',
