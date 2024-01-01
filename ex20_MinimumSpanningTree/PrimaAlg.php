@@ -66,4 +66,8 @@ class PrimaAlg extends Alg
 		return $result;
 	}
 
+	public function getStats(): string
+	{
+		return '';
+	}
 }

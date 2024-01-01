@@ -2,7 +2,6 @@
 
 namespace Otus\ex21_ShortestPath;
 
-use Otus\Alg;
 use Otus\ex18_Vertex\Edge;
 use Otus\ex18_Vertex\Graph;
 use Otus\ex18_Vertex\Vertex;

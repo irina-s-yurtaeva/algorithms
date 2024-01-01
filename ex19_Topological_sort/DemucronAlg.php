@@ -2,11 +2,11 @@
 
 namespace Otus\ex19_Topological_sort;
 
+use Otus\Alg;
 use Otus\ex18_Vertex\Graph;
-use Otus\ex18_Vertex\VisitorDFSearcher;
 use Otus\Result;
 
-class DemucronAlg
+class DemucronAlg extends Alg
 {
 	protected Graph $graph;
 
@@ -60,4 +60,8 @@ class DemucronAlg
 		return $result;
 	}
 
+	public function getStats(): string
+	{
+		return '';
+	}
 }

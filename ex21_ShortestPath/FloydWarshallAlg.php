@@ -57,4 +57,9 @@ class FloydWarshallAlg extends Alg
 		$result->finalize();
 		return $result;
 	}
+
+	public function getStats(): string
+	{
+		return '';
+	}
 }

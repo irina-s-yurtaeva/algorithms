@@ -3,9 +3,7 @@
 namespace Otus\ex16_PrefixTrie;
 
 include_once __DIR__ . '/../Autoload.php';
-use Otus\Alg;
 use Otus\ex13_HashTable;
-use Otus\Result;
 
 $painter = new \Otus\PaintUtils();
 
