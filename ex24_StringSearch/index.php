@@ -36,7 +36,7 @@ try
 	{
 		echo 'Text: "' . $scanData['text'] . '" pattern: "' . $scanData['pattern'] . '"' . PHP_EOL;
 
-		foreach ([FullScanAlg::class, BoyerMooreLightAlg::class] as $alg)
+		foreach ([FullScanAlg::class, BoyerMooreLightAlg::class, BoyerMooreAlg::class] as $alg)
 		{
 			/** @var \Otus\Alg $alg */
 			$alg = (new $alg($scanData['text'], $scanData['pattern']));

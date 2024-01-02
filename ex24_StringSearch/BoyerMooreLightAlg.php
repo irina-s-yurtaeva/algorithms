@@ -9,7 +9,7 @@ class BoyerMooreLightAlg extends ScanAlg
 {
 	public function getName(): string
 	{
-		return 'Boyer Moore Light scan';
+		return 'Boyer Moore Horspool scan';
 	}
 
 	protected function makeOffsetTable(): array
