@@ -5,7 +5,7 @@ namespace Otus\ex24_StringSearch;
 use Otus\Alg;
 use Otus\Result;
 
-class FullScanAlg extends ScanAlg
+class FullScanAlg extends AbstractScanAlg
 {
 	public function getName(): string
 	{

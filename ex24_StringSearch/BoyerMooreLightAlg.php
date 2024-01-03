@@ -5,7 +5,7 @@ namespace Otus\ex24_StringSearch;
 use Otus\Alg;
 use Otus\Result;
 
-class BoyerMooreLightAlg extends ScanAlg
+class BoyerMooreLightAlg extends AbstractScanAlg
 {
 	public function getName(): string
 	{

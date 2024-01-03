@@ -5,6 +5,7 @@ namespace Otus\ex24_StringSearch;
 include_once __DIR__ . '/../Autoload.php';
 
 $painter = new \Otus\PaintUtils();
+
 echo 'String search' . PHP_EOL;
 echo
 	str_pad('Algorithm', 37, ' ', STR_PAD_LEFT)  . ' | ' .

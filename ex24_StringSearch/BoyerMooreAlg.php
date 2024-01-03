@@ -5,8 +5,16 @@ namespace Otus\ex24_StringSearch;
 use Otus\Alg;
 use Otus\Result;
 
-class BoyerMooreAlg extends ScanAlg
+class BoyerMooreAlg extends AbstractScanAlg
 {
+	protected string $patternPrefix = '';
+
+	public function __construct(protected string $text, protected string $pattern)
+	{
+		parent::__construct($text, $pattern);
+		$this->patternPrefix = '';
+	}
+
 	public function getName(): string
 	{
 		return 'Boyer Moore scan';
@@ -37,61 +45,62 @@ class BoyerMooreAlg extends ScanAlg
 		return $result;
 	}
 
-	protected function makeOffsetTableForSuffixes(): array
+	public function makeOffsetTableForSuffixes(): array
 	{
 		$result = [];
 		$patternLength = strlen($this->pattern);
-		$lastPrefixPosition = $patternLength - 1;
+		$this->patternPrefix = $this->findPrefix();
 
-		for ($i = $patternLength - 1; $i >= 0; $i--)
+		for ($i = $patternLength; $i > 0; $i--)
 		{
-			if ($this->isPrefix($i + 1))
-			{
-				$lastPrefixPosition = $i + 1;
-			}
-			$result[$patternLength - $i] = $lastPrefixPosition - $i + $patternLength - 1;
-		}
-
-		for ($i = 0; $i < $patternLength - 1; $i++)
-		{
-			$len = $this->suffixLength($i);
-
-			$result[$len] = $patternLength - 1 - $i + $len;
+			$result[substr($this->pattern, $i - 1)] = $this->findSuffixFor($i);
 		}
 
 		return $result;
 	}
 
-	private function isPrefix(int $length): bool
+	private function findPrefix(): string
 	{
-		$j = 0;
 		$patternLength = strlen($this->pattern);
+		$prefix = '';
 
-		for ($i = $length; $i < $patternLength; $i++)
+		for ($i = 1; $i < $patternLength / 2; $i++)
 		{
-			if ($this->pattern[$i] !== $this->pattern[$j])
+			$finishSymbols = substr($this->pattern, 0 - $i);
+			$startSymbols = substr($this->pattern, 0, $i);
+			if ($startSymbols === $finishSymbols)
 			{
-				return false;
+				$prefix = $startSymbols;
 			}
-			$j++;
 		}
 
-		return true;
+		return $prefix;
 	}
 
-	private function suffixLength(int $p): int
+	private function findSuffixFor(int $i): int
 	{
-		$len = 0;
-		$i = $p;
-		$j = strlen($this->pattern) - 1;
-		while ($i >= 0 && $this->pattern[$i] === $this->pattern[$j])
+		$sample = substr($this->pattern, $i - 1);
+		$sampleLength = strlen($sample);
+		$patternLength = strlen($this->pattern);
+		$theSymbolPositionBeforeTheSample = $i - 1;
+		$prefixLength = strlen($this->patternPrefix);
+
+		$result = $patternLength - $prefixLength;
+
+		for ($j = $theSymbolPositionBeforeTheSample - $sampleLength; $j >= 0; $j--)
 		{
-			$len++;
-			$i--;
-			$j--;
+			$hypotheticalSuffix = substr($this->pattern, $j, $sampleLength);
+
+			if ($hypotheticalSuffix === $sample)
+			{
+				$hypotheticalSuffixPositionFromTheEndOfThePattern = $patternLength - $j;
+				$result = $hypotheticalSuffixPositionFromTheEndOfThePattern - $sampleLength;
+				break;
+			}
 		}
 
-		return $len;
+
+		return $result;
 	}
 
 	public function apply(): Result

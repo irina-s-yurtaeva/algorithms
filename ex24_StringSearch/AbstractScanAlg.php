@@ -5,7 +5,7 @@ namespace Otus\ex24_StringSearch;
 use Otus\Alg;
 use Otus\Result;
 
-abstract class ScanAlg extends Alg
+abstract class AbstractScanAlg extends Alg
 {
 	protected $iterations = 0;
 	public function __construct(protected string $text, protected string $pattern)
