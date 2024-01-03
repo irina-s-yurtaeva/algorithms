@@ -25,7 +25,7 @@ class BoyerMooreAlg extends AbstractScanAlg
 		$length = strlen($this->pattern);
 		$result = [];
 		$lastLetter = $this->pattern[$length - 1];
-		for ($i = $length - 2; $i > 0; $i--)
+		for ($i = $length - 2; $i >= 0; $i--)
 		{
 			$letter = $this->pattern[$i];
 			if ($letter === $lastLetter)
@@ -39,7 +39,7 @@ class BoyerMooreAlg extends AbstractScanAlg
 		}
 		if (isset($lastLetter))
 		{
-			$result[$lastLetter] = $length - 1;
+			$result[$lastLetter] = $length;
 		}
 
 		return $result;
@@ -53,7 +53,10 @@ class BoyerMooreAlg extends AbstractScanAlg
 
 		for ($i = $patternLength; $i > 0; $i--)
 		{
-			$result[substr($this->pattern, $i - 1)] = $this->findSuffixFor($i);
+			if ($suffix = $this->findSuffixFor($i))
+			{
+				$result[substr($this->pattern, $i - 1)] = $suffix;
+			}
 		}
 
 		return $result;
@@ -77,7 +80,7 @@ class BoyerMooreAlg extends AbstractScanAlg
 		return $prefix;
 	}
 
-	private function findSuffixFor(int $i): int
+	private function findSuffixFor(int $i): ?int
 	{
 		$sample = substr($this->pattern, $i - 1);
 		$sampleLength = strlen($sample);
@@ -85,7 +88,7 @@ class BoyerMooreAlg extends AbstractScanAlg
 		$theSymbolPositionBeforeTheSample = $i - 1;
 		$prefixLength = strlen($this->patternPrefix);
 
-		$result = $patternLength - $prefixLength;
+//		$result = $patternLength - $prefixLength;
 
 		for ($j = $theSymbolPositionBeforeTheSample - $sampleLength; $j >= 0; $j--)
 		{
@@ -117,6 +120,7 @@ class BoyerMooreAlg extends AbstractScanAlg
 		while ($t <= $searchDiapason)
 		{
 			$m = $patternLength - 1;
+			$equalLetters = 0;
 			$found = true;
 			while (0 <= $m)
 			{
@@ -126,6 +130,7 @@ class BoyerMooreAlg extends AbstractScanAlg
 					$found = false;
 					break;
 				}
+				$equalLetters++;
 				$m--;
 			}
 			if ($found)
@@ -136,15 +141,18 @@ class BoyerMooreAlg extends AbstractScanAlg
 			{
 				$badLetter = $this->text[ $t + $m ];
 				$lastLetter = $this->text[ $t + $patternLength - 1 ];
+				$suffixLength = $equalLetters;
 
-				$suffixLength = $patternLength - $m;
-				$goodSuffixOffset = $goodSuffixOffsetTable[$suffixLength] ?? 0;
+				$goodSuffixOffset = $goodSuffixOffsetTable[substr($this->pattern, 0 - $suffixLength)] ?? 0;
+
 				$badSuffixOffset = max(
 					!isset($lastLetterOffsetTable[$badLetter]) ? $m : 0,
 					$lastLetterOffsetTable[$lastLetter] ?? 0
 				);
 
-				$t += max($badSuffixOffset, $goodSuffixOffset, 1);
+				$offset = max($badSuffixOffset, $goodSuffixOffset, 1);
+
+				$t += $offset;
 			}
 		}
 
