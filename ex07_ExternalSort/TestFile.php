@@ -117,7 +117,7 @@ class TestFile implements \Iterator
 
 	public function fill(int $stringsLeft, ?int $range = 1000): static
 	{
-		if (!($fp = fopen($this->fileName, 'w')))
+		if (!($fp = fopen($this->fileName, 'w+')))
 		{
 			throw new \Exception('File was not created.');
 		}
