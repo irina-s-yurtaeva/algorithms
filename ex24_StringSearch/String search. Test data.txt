@@ -1,0 +1,44 @@
+String search
+                                      Algorithm |          Time |          Memo |          Stat | 
+Text: "Strong string" pattern: "rong"
+                               Brute-force scan |  32.58 microS |         432 B | iterations: 6 | 
+                      Boyer Moore Horspool scan |  37.17 microS |         808 B | iterations: 7 | 
+                               Boyer Moore scan |  85.94 microS |         864 B | iterations: 5 | 
+                           Finite Automata scan | 341.26 microS |       2.96 KB | iterations: 6 | 
+      Finite automata with slow prefix function |  96.08 microS |         464 B | iterations: 14 | 
+      Finite automata with fast prefix function |  57.52 microS |         680 B | iterations: 14 | 
+                   Knuth Morris Pratt scan 1977 |  79.87 microS |         648 B | iterations: 12 | 
+Text: "Strong string" pattern: "ring"
+                               Brute-force scan |  40.24 microS |         432 B | iterations: 14 | 
+                      Boyer Moore Horspool scan |  37.23 microS |         808 B | iterations: 16 | 
+                               Boyer Moore scan |  73.96 microS |         808 B | iterations: 7 | 
+                           Finite Automata scan | 334.67 microS |       2.96 KB | iterations: 13 | 
+      Finite automata with slow prefix function | 133.06 microS |         464 B | iterations: 34 | 
+      Finite automata with fast prefix function |  96.62 microS |         680 B | iterations: 34 | 
+                   Knuth Morris Pratt scan 1977 | 134.44 microS |         648 B | iterations: 27 | 
+Text: "Strong string" pattern: "sring"
+                               Brute-force scan |  31.16 microS |         432 B | iterations: 10 | 
+                      Boyer Moore Horspool scan |  43.29 microS |         808 B | iterations: 22 | 
+                               Boyer Moore scan |  87.02 microS |         808 B | iterations: 10 | 
+                           Finite Automata scan | 536.82 microS |       3.36 KB | iterations: 13 | 
+      Finite automata with slow prefix function | 162.21 microS |         432 B | iterations: 38 | 
+      Finite automata with fast prefix function | 107.38 microS |         648 B | iterations: 38 | 
+                   Knuth Morris Pratt scan 1977 | 144.57 microS |         648 B | iterations: 27 | 
+Text: "aabcaabaabaaabaadabaabaabaaabdaaabaabaabaaabtaabaabaabaaaba" pattern: "aabaabaabaaaba"
+                               Brute-force scan | 291.37 microS |         432 B | iterations: 148 | 
+                      Boyer Moore Horspool scan |  84.21 microS |         808 B | iterations: 45 | 
+                               Boyer Moore scan | 208.01 microS |       1.28 KB | iterations: 33 | 
+                           Finite Automata scan | 769.55 microS |      11.73 KB | iterations: 59 | 
+      Finite automata with slow prefix function |  619.1 microS |         848 B | iterations: 132 | 
+      Finite automata with fast prefix function | 113.58 microS |         848 B | iterations: 135 | 
+                   Knuth Morris Pratt scan 1977 | 169.69 microS |         808 B | iterations: 133 | 
+Text: "aabcaabaabaaabaadabaabaabaaabdaaabaabaabaaabtaabaabaabaaabraabcaabaabaaabaadabaabaabaaabdaaabaabaabaaabtaabaabaabaaabtaabcaabaabaaabaadabaabaabaaabdaaabaabaabaaabtaabaabaabaaayaabcaabaabaaabaadabaabaabaaabdaaabaabaabaaabtaabaabaabaaaba" pattern: "aabaabaabaaaba"
+                               Brute-force scan | 463.33 microS |         432 B | iterations: 694 | 
+                      Boyer Moore Horspool scan |  81.48 microS |         808 B | iterations: 151 | 
+                               Boyer Moore scan | 131.29 microS |       1.28 KB | iterations: 95 | 
+                           Finite Automata scan | 345.28 microS |      11.73 KB | iterations: 235 | 
+      Finite automata with slow prefix function | 541.17 microS |         848 B | iterations: 533 | 
+      Finite automata with fast prefix function | 426.27 microS |         848 B | iterations: 546 | 
+                   Knuth Morris Pratt scan 1977 | 653.34 microS |         808 B | iterations: 538 | 
+
+Process finished with exit code 0
