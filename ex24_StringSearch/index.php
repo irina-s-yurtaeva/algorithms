@@ -8,7 +8,7 @@ $painter = new \Otus\PaintUtils();
 
 echo 'String search' . PHP_EOL;
 echo
-	str_pad('Algorithm', 37, ' ', STR_PAD_LEFT)  . ' | ' .
+	str_pad('Algorithm', 47, ' ', STR_PAD_LEFT)  . ' | ' .
 	str_pad('Time', 13, ' ', STR_PAD_LEFT). ' | ' .
 	str_pad('Memo', 13, ' ', STR_PAD_LEFT). ' | ' .
 	str_pad('Stat', 13, ' ', STR_PAD_LEFT). ' | ' .
@@ -33,11 +33,30 @@ try
 			'pattern' => 'sring',
 			'answer' => [null]
 		],
+		[
+			'text' => 'aabcaabaabaaabaadabaabaabaaabdaaabaabaabaaabtaabaabaabaaaba',
+			'pattern' => 'aabaabaabaaaba',
+			'answer' => [45]
+		],
+		[
+			'text' => 'aabcaabaabaaabaadabaabaabaaabdaaabaabaabaaabtaabaabaabaaabraabcaabaabaaabaadabaabaabaaabdaaabaabaabaaabtaabaabaabaaabtaabcaabaabaaabaadabaabaabaaabdaaabaabaabaaabtaabaabaabaaayaabcaabaabaaabaadabaabaabaaabdaaabaabaabaaabtaabaabaabaaaba',
+			'pattern' => 'aabaabaabaaaba',
+			'answer' => [221]
+		],
 	] as $scanData)
 	{
 		echo 'Text: "' . $scanData['text'] . '" pattern: "' . $scanData['pattern'] . '"' . PHP_EOL;
 
-		foreach ([FullScanAlg::class, BoyerMooreLightAlg::class, BoyerMooreAlg::class] as $alg)
+		foreach ([
+			FullScanAlg::class,
+			BoyerMooreLightAlg::class,
+			BoyerMooreAlg::class,
+
+			FiniteAutomataAlg::class,
+			FiniteAutomataWithPrefixAlg::class,
+			FiniteAutomataWithFastPrefixAlg::class,
+			KMPAlg::class,
+			] as $alg)
 		{
 			/** @var \Otus\Alg $alg */
 			$alg = (new $alg($scanData['text'], $scanData['pattern']));
@@ -60,7 +79,7 @@ try
 				];
 			}
 			echo
-				str_pad($alg->getName(), 37, ' ', STR_PAD_LEFT) . ' | ' .
+				str_pad($alg->getName(), 47, ' ', STR_PAD_LEFT) . ' | ' .
 				str_pad($column[0], 13, ' ', STR_PAD_LEFT). ' | ' .
 				str_pad($column[1], 13, ' ', STR_PAD_LEFT). ' | ' .
 				str_pad($column[2], 13, ' ', STR_PAD_LEFT). ' | ' .

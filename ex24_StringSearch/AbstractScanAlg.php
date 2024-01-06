@@ -13,9 +13,9 @@ abstract class AbstractScanAlg extends Alg
 
 	}
 
-	protected function iterate(): static
+	protected function iterate(int $inc = 1): static
 	{
-		$this->iterations++;
+		$this->iterations += $inc;
 
 		return $this;
 	}
