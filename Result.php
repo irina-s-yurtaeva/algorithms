@@ -9,6 +9,8 @@ class Result
 	private int $memoryStart;
 	private int $memoryFinish;
 	private ?array $data = null;
+	/** @var \Error[] $errors  */
+	private array $errors = [];
 
 	public function __construct()
 	{
@@ -86,5 +88,17 @@ class Result
 	public function getData(): ?array
 	{
 		return $this->data;
+	}
+
+	public function addError(\Error $error): static
+	{
+		$this->errors[] = $error;
+
+		return $this;
+	}
+
+	public function isSuccess(): bool
+	{
+		return empty($this->errors);
 	}
 }

@@ -117,9 +117,9 @@ class TestFile implements \Iterator
 
 	public function fill(int $stringsLeft, ?int $range = 1000): static
 	{
-		if (!($fp = fopen($this->fileName, 'w+')))
+		if (!($fp = fopen($this->fileName, 'w')))
 		{
-			throw new \Exception('File was not created.');
+			throw new \Exception('File ' . $this->fileName . ' was not created.');
 		}
 
 		$baseSet = range(1, $range);
@@ -171,7 +171,7 @@ class TestFile implements \Iterator
 		return (new static($fileNameTemplate))->fill($stringsCount, $range);
 	}
 
-	public static function getInstanceForTheTest(string $fileName, int $stringsCount, int $range = 0): static
+	public static function getInstanceForTheTest(string $fileName, int $stringsCount = 100, int $range = 0): static
 	{
 		if (isset(self::$instances[$fileName]))
 		{

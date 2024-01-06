@@ -5,5 +5,5 @@ namespace Otus;
 class TimeoutException extends \Exception
 {
 	protected $message = 'Timeout';
-	protected $code = 'timeout';
+	protected $code = 501;
 }

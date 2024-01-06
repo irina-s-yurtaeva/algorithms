@@ -3,6 +3,8 @@ namespace Otus\ex09_BillionNumbersSort;
 
 include_once __DIR__ . '/../Autoload.php';
 
+use \Otus\ex07_ExternalSort\TestFile;
+
 $painter = new \Otus\PaintUtils();
 try
 {
@@ -31,7 +33,7 @@ try
 			}
 			else
 			{
-				\Otus\ex07_ExternalSort\TestFile::generate(
+				TestFile::generate(
 					sprintf(__DIR__ . '/testFiles/source_%d_%d.txt', $argv[2], $argv[3]), $argv[2], $argv[3]
 				);
 			}
@@ -41,41 +43,38 @@ try
 	}
 
 echo
-	str_pad('Algorithm', 37, ' ', STR_PAD_LEFT)  . ' | ' .
-	str_pad('Counts', 10, ' ', STR_PAD_LEFT). ' | ' .
-	str_pad('Time', 10, ' ', STR_PAD_LEFT) .
+	str_pad('Algorithm', 20, ' ', STR_PAD_LEFT)  . ' | ' .
+	str_pad('Time', 10, ' ', STR_PAD_LEFT). ' | ' .
+	str_pad('Memory', 10, ' ', STR_PAD_LEFT). ' | ' .
+	str_pad('Stats', 10, ' ', STR_PAD_LEFT) .
 	PHP_EOL
 ;
 
-
-	foreach (range(2, 6) as $numberOrder)
+	$files = new \FilesystemIterator(__DIR__ . '/testFiles/', \FilesystemIterator::SKIP_DOTS);
+	foreach ($files as $fileHandler)
 	{
 		$file = \Otus\ex07_ExternalSort\TestFile::getInstanceForTheTest(
-			__DIR__ . '/testFiles/source_pow_' . $numberOrder . '.txt', 10 ** $numberOrder, 5 ** $numberOrder
+			$fileHandler->getRealPath()
 		);
+		echo $fileHandler->getBasename() . PHP_EOL;
 		foreach ([
-			\Otus\ex09_BillionNumbersSort\SortExternal2::class
+			BucketSortAlg::class
 		] as $sortClass)
 		{
-			$className = trim(str_replace(__NAMESPACE__, '', $sortClass), '/\\');
-			/* @var TestFile $file */
-			/* @var SortExternal2 $sortAlg */
-			$sortAlg = new $sortClass;
-			$sortAlg->sortFile($file, __DIR__ . '/testFiles/' . $className . '_' . $numberOrder . '.txt');
+			/** @var SortAlg $sortAlg */
+			$sortAlg = new $sortClass($file);
+
+			$result = $sortAlg->apply();
 
 			echo
-				str_pad($className, 20, ' ', STR_PAD_LEFT) . ' | ' .
-				str_pad(10 ** $numberOrder, 7, ' ', STR_PAD_LEFT). ' | ' .
-				str_pad($sortAlg->getAnswer(), 10, ' ', STR_PAD_LEFT).
+				str_pad($sortAlg->getName(), 20, ' ', STR_PAD_LEFT) . ' | ' .
+				str_pad($result->finalize() ? $result->getTimeUsage() : 'Not finished', 10, ' ', STR_PAD_LEFT). ' | ' .
+				str_pad($result->finalize() ? $result->getMemoryUsage() : 'Not finished', 10, ' ', STR_PAD_LEFT). ' | ' .
+				str_pad($sortAlg->getStats(), 10, ' ', STR_PAD_LEFT).
 				PHP_EOL
 			;
 		}
 	}
-}
-catch (\Otus\TimeoutException $e)
-{
-	?><pre><b>$e: </b><?php print_r($e)?></pre><?php
-	;
 }
 catch (\Throwable $e)
 {
