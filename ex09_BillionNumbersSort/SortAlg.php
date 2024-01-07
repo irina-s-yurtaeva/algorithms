@@ -11,10 +11,11 @@ use Otus\Timer;
 abstract class SortAlg extends Otus\Alg
 {
 	protected Timer $timer;
+	protected int $statsFinalElementsCount = 0;
 
 	public function __construct(protected TestFile $file)
 	{
-		$this->timer = new Timer(120);
+		$this->timer = new Timer(60 * 4);
 	}
 
 	public function apply(): Result
@@ -38,4 +39,13 @@ abstract class SortAlg extends Otus\Alg
 	}
 
 	abstract public function sort(): void;
+
+	public function getStats(): string
+	{
+		$res = parent::getStats()
+			. ' FinalElementsCount: ' . $this->statsFinalElementsCount
+		;
+
+		return $res;
+	}
 }

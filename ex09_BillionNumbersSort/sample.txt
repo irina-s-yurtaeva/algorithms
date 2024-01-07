@@ -1,0 +1,19 @@
+                     Algorithm |            Time |          Memory |      Stats
+source_500000_1000.txt
+                   Bucket sort |    Not finished |    Not finished |    Timeout
+                    Radix sort |           9 sec |           264 B | iterations: 4500080 FinalElementsCount: 500000
+                 Counting sort |           7 sec |           224 B | iterations: 4508004 FinalElementsCount: 500000
+source_1000_100.txt
+                   Bucket sort |           1 sec |         8.74 KB | iterations: 28991 FinalElementsCount: 1000 Max elements in a List = 100 BucketsCount: 10 FinalElementsCount: 1000
+                    Radix sort |    15.74 milliS |           208 B | iterations: 7060 FinalElementsCount: 1000
+                 Counting sort |    11.89 milliS |           216 B | iterations: 7603 FinalElementsCount: 1000
+source_100_100.txt
+                   Bucket sort |     1.93 milliS |         8.73 KB | iterations: 427 FinalElementsCount: 100 Max elements in a List = 10 BucketsCount: 10 FinalElementsCount: 100
+                    Radix sort |     1.61 milliS |           216 B | iterations: 760 FinalElementsCount: 100
+                 Counting sort |     1.31 milliS |           216 B | iterations: 1303 FinalElementsCount: 100
+source_50000000_1000.txt
+                   Bucket sort |    Not finished |    Not finished |    Timeout
+                    Radix sort |    Not finished |    Not finished |    Timeout
+                 Counting sort |    Not finished |    Not finished |    Timeout
+
+Process finished with exit code 0

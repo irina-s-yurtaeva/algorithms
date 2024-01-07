@@ -101,4 +101,12 @@ class Result
 	{
 		return empty($this->errors);
 	}
+
+	public function getErrorMessage(): ?string
+	{
+		return implode(
+			PHP_EOL,
+			array_map(fn(\Error $error) => $error->getMessage(), $this->errors)
+		);
+	}
 }

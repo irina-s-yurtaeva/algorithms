@@ -43,9 +43,9 @@ try
 	}
 
 echo
-	str_pad('Algorithm', 20, ' ', STR_PAD_LEFT)  . ' | ' .
-	str_pad('Time', 10, ' ', STR_PAD_LEFT). ' | ' .
-	str_pad('Memory', 10, ' ', STR_PAD_LEFT). ' | ' .
+	str_pad('Algorithm', 30, ' ', STR_PAD_LEFT)  . ' | ' .
+	str_pad('Time', 15, ' ', STR_PAD_LEFT). ' | ' .
+	str_pad('Memory', 15, ' ', STR_PAD_LEFT). ' | ' .
 	str_pad('Stats', 10, ' ', STR_PAD_LEFT) .
 	PHP_EOL
 ;
@@ -58,7 +58,9 @@ echo
 		);
 		echo $fileHandler->getBasename() . PHP_EOL;
 		foreach ([
-			BucketSortAlg::class
+			BucketSortAlg::class,
+			RadixSortAlg::class,
+			CountingSortAlg::class,
 		] as $sortClass)
 		{
 			/** @var SortAlg $sortAlg */
@@ -67,10 +69,10 @@ echo
 			$result = $sortAlg->apply();
 
 			echo
-				str_pad($sortAlg->getName(), 20, ' ', STR_PAD_LEFT) . ' | ' .
-				str_pad($result->finalize() ? $result->getTimeUsage() : 'Not finished', 10, ' ', STR_PAD_LEFT). ' | ' .
-				str_pad($result->finalize() ? $result->getMemoryUsage() : 'Not finished', 10, ' ', STR_PAD_LEFT). ' | ' .
-				str_pad($sortAlg->getStats(), 10, ' ', STR_PAD_LEFT).
+				str_pad($sortAlg->getName(), 30, ' ', STR_PAD_LEFT) . ' | ' .
+				str_pad($result->isFinalized() ? $result->getTimeUsage() : 'Not finished', 15, ' ', STR_PAD_LEFT). ' | ' .
+				str_pad($result->isFinalized() ? $result->getMemoryUsage() : 'Not finished', 15, ' ', STR_PAD_LEFT). ' | ' .
+				str_pad($result->isSuccess() ? $sortAlg->getStats() : $result->getErrorMessage(), 10, ' ', STR_PAD_LEFT).
 				PHP_EOL
 			;
 		}

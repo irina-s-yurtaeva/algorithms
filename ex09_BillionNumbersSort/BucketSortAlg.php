@@ -7,6 +7,9 @@ use Otus\Result;
 
 class BucketSortAlg extends SortAlg
 {
+	protected int $statMaxElementsInAList = 0;
+	protected int $statsBucketsCount = 0;
+
 	public function getName(): string
 	{
 		return 'Bucket sort';
@@ -16,77 +19,74 @@ class BucketSortAlg extends SortAlg
 	{
 		$this->file->rewind();
 		$maxNumber = 0;
-		$bucketsCount = 0;
 		while ([$number] = $this->file->getData(1))
 		{
 			$maxNumber = $maxNumber > $number ? $maxNumber : $number;
-			$bucketsCount++;
 			$this->iterate();
 			$this->timer->check();
 		}
-		$maxNumber++;
+		$bucketsCount = $maxNumber / 10;
+		$this->statsBucketsCount = $bucketsCount;
 
-		$buckets = array_fill(1, $bucketsCount, null);
+		$maxNumber++;
+		$buckets = array_fill(0, $bucketsCount, null);
 		$this->file->rewind();
 		while ([$number] = $this->file->getData(1))
 		{
 			$bucketNumber = (int) ($number * $bucketsCount / $maxNumber);
-			if (!isset($buckets[$bucketNumber]))
-			{
-				$buckets[$bucketNumber] = new \SplDoublyLinkedList();
-				$buckets[$bucketNumber]->unshift($number);
-				$this->iterate();
-			}
-			else
-			{
-				$list = $buckets[$bucketNumber];
-				unset($buckets[$bucketNumber]);
-				$list->rewind();
+			$buckets[$bucketNumber] = new ListSortElement($number, ($buckets[$bucketNumber] ?? null));
 
-				$buckets[$bucketNumber] = new \SplDoublyLinkedList();
-				while (!$list->isEmpty() && ($fromTheList = $list->shift()))
+			$list = $buckets[$bucketNumber];
+			while ($list->getNext() !== null)
+			{
+				if ($list->getValue() < $list->getNext()->getValue())
 				{
-					$this->iterate();
-
-					if ($number !== null || ($fromTheList < $number))
-					{
-						$buckets[$bucketNumber]->unshift($fromTheList);
-					}
-					else
-					{
-						$buckets[$bucketNumber]->unshift($number);
-						$number = null;
-						$buckets[$bucketNumber]->unshift($fromTheList);
-					}
-					$list->next();
+					break;
 				}
+				$this->iterate();
+				$buff = $list->getValue();
+				$list->setValue($list->getNext()->getValue());
+				$list->getNext()->setValue($buff);
+				$list = $list->getNext();
+				$this->timer->check();
 			}
-
-			$this->timer->check();
 		}
 		$checkResult = 0;
-		foreach ($buckets as $bucketNumber => $bucketList)
+		$this->statsFinalElementsCount = 0;
+		$this->statMaxElementsInAList = 0;
+		foreach ($buckets as $list)
 		{
-			if (!($bucketList instanceof \SplDoublyLinkedList))
+			if (!($list instanceof ListSortElement))
 			{
 				continue;
 			}
-			/** @var \SplDoublyLinkedList $bucketList */
-			else if ($bucketList->isEmpty())
-			{
-				echo '$bucketNumber: ' . $bucketNumber . PHP_EOL;
-			}
 			else
 			{
-				while (!$bucketList->isEmpty() && ($number = $bucketList->shift()))
+				/** @var ListSortElement $bucketList */
+				$listInABucket = 0;
+				do
 				{
+					$this->statsFinalElementsCount++;
 					$this->iterate();
-					if ($checkResult > $number)
+					if ($checkResult > $list->getValue())
 					{
 						throw new \ErrorException('Bad sort');
 					}
-				}
+					$checkResult = $list->getValue();
+					$listInABucket++;
+				} while ($list = $list->getNext());
+				$this->statMaxElementsInAList = max($this->statMaxElementsInAList, $listInABucket);
 			}
 		}
+	}
+
+	public function getStats(): string
+	{
+		$res = parent::getStats() . ' Max elements in a List = ' . $this->statMaxElementsInAList
+			. ' BucketsCount: ' . $this->statsBucketsCount
+			. ' FinalElementsCount: ' . $this->statsFinalElementsCount
+		;
+
+		return $res;
 	}
 }
