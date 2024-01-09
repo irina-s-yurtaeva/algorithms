@@ -37,10 +37,10 @@ try
 	foreach ([
 //		[3,1, 7, 4, 0, 2,5],
 		[3,1, 7, 4, 0, 2,5, 10, 45, 78, 12, 16, 6],
-		//	ArrayFabric::createShuffle(5),
-		//	ArrayFabric::createShuffle(10),
-//			ArrayFabric::createShuffle(20),
-//			ArrayFabric::createShuffle(100),
+			ArrayFabric::createShuffle(5),
+			ArrayFabric::createShuffle(10),
+			ArrayFabric::createShuffle(20),
+			ArrayFabric::createShuffle(100),
 //			ArrayFabric::createShuffle(1000),
 //			ArrayFabric::createShuffle(10000),
 //			ArrayFabric::createShuffle(100000),
@@ -55,7 +55,9 @@ try
 
 		foreach ([
 //			\Otus\ex10_AVL\TreeBinary::class,
-			\Otus\ex10_AVL\TreeAVL::class,
+//			\Otus\ex10_AVL\TreeAVL::class,
+			\Otus\ex10_AVL\TreeSplay::class,
+
 		] as $treeClass)
 		{
 			/* @var \Otus\ex10_AVL\Tree $tree */
