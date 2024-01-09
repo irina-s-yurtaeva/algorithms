@@ -1,5 +1,5 @@
 <?php
-namespace Otus\ex07_ExternalSort;
+namespace Otus\ex10_AVL;
 
 use Otus\ArrayFabric;
 
@@ -49,7 +49,7 @@ try
 	] as $array)
 	{
 		$count = count($array);
-		$elements = $count > 10 ? range(0, $count - 1, 10) : [];
+		$elements = range(0, $count - 1, $count > 10 ? 10 : 3);
 		$elementsCount = count($elements);
 		echo "Tree nodes: $count and testing elements: $elementsCount" . PHP_EOL;
 
@@ -121,5 +121,3 @@ catch (\Throwable $e)
 
 	echo 'My error: ' . $e->getMessage();
 }
-
-//__halt_compiler();

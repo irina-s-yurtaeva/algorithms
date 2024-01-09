@@ -123,7 +123,8 @@ abstract class Tree
 		while (($value = next($this->array)) !== false)
 		{
 			$this->checkTime();
-			$this->root->append($this->createNode($value));
+			$newNode = $this->createNode($value);
+			$this->root->append($newNode)->onAppended();
 		}
 
 		return $this->root;
@@ -131,6 +132,9 @@ abstract class Tree
 
 	public function insert(int $value): Node
 	{
-		return $this->root->append($this->createNode($value));
+		$newNode = $this->createNode($value);
+		$this->root->append($newNode);
+
+		return $newNode;
 	}
 }

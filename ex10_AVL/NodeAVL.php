@@ -5,11 +5,8 @@ namespace Otus\ex10_AVL;
 class NodeAVL extends NodeBinary
 {
 	protected int $height;
-	function __construct($value) {
-	    parent::__construct($value);
-		echo 'new node: ', $value."\n";
-	}
-	function calibrateNode(Node $node): ?static
+
+	public function calibrateNode(Node $node): ?static
 	{
 		if ($node instanceof NodeAVL)
 		{
@@ -26,8 +23,9 @@ class NodeAVL extends NodeBinary
 
 	protected function calcHeight(): static
 	{
-		$leftHeight = $this->getLeft()?->getHeight() ?? 0;
-		$rightHeight = $this->getRight()?->getHeight() ?? 0;
+		$leftHeight = $this->getLeft()?->getHeight();
+		$rightHeight = $this->getRight()?->getHeight();
+
 		$newHeight = max($leftHeight, $rightHeight) + 1;
 		if (!isset($this->height) || $this->height !== $newHeight)
 		{
@@ -35,62 +33,76 @@ class NodeAVL extends NodeBinary
 
 			$this->getParent()?->calcHeight();
 		}
-		echo 'height with value '.$this->getValue().': ', $this->height."\n";
+
 		return $this;
 	}
 
-	protected function balance(): void
+	protected function balance($debug = false): void
 	{
 		$parent = $this->getParent();
-		echo 'balance for value '.$this->getValue().' left: '.$this->getLeft()?->getHeight().' and right: '
-			.$this->getRight()?->getHeight()."\n";
+
 		if (!($parent instanceof Node))
 		{
 			return;
 		}
-		$leftHeight = $parent->getLeft() instanceof Node ? $parent->getLeft()->getHeight() : 0;
-		$rightHeight = $parent->getRight() instanceof Node ? $parent->getRight()->getHeight() : 0;
-		if ($leftHeight == $rightHeight)
+
+		$leftHeight = $this->getLeft()?->getHeight() ?? 0;
+		$rightHeight = $this->getRight()?->getHeight() ?? 0;
+
+		$abs = abs($leftHeight - $rightHeight);
+		if ($abs <= 1)
 		{
-			echo 'for value '.$this->getValue().' left is equal right' . PHP_EOL;
-			return;
+//			if ($leftHeight == $rightHeight)
+//				echo 'node: ' . $this->getValue().' left is equal to right' . PHP_EOL;
+//			else
+//				echo 'node: ' . $this->getValue().' balancing is no needed: ' . $abs . PHP_EOL;
 		}
-		if (abs($leftHeight - $rightHeight) > 1)
+		else if ($leftHeight > $rightHeight)
 		{
-			if ($parent->getLeft() === $this)
+			// правое вращение
+			$workingNode = $this->getLeft();
+
+			//Малое правое вращение
+			if ($workingNode->getLeft()?->getHeight() >= $workingNode->getRight()?->getHeight())
 			{
-				if ($this->getLeft()?->getHeight() >= $this->getRight()?->getHeight())
-				{
-					$this->rotateLeftLeft();
-				}
-				else
-				{
-					$this->rotateRightLeft();
-				}
+				$parent = $workingNode->rotateRight();
 			}
 			else
 			{
-				if ($this->getLeft()?->getHeight() < $this->getRight()?->getHeight())
-				{
-					$parent->rotateRightRight();
-				}
-				else
-				{
-					$parent->rotateLeftRight();
-				}
+				//Большое правое вращение
+				$parent = $workingNode->getRight()->rotateLeft()->rotateRight();
+			}
+		}
+		else
+		{
+			//левое вращение
+			$workingNode = $this->getRight();
+
+			//Малое левое вращение
+			if ($workingNode->getLeft()?->getHeight() <= $workingNode->getRight()?->getHeight())
+			{
+				$parent = $workingNode->rotateLeft();
+			}
+			else
+			{
+				//Большое левое вращение
+				$parent = $workingNode->getLeft()->rotateRight()->rotateLeft();
 			}
 		}
 
 		$parent->balance();
 	}
 
-	public function append(Node $newNode): static
+	public function onAppended(): static
 	{
-		$newNode = parent::append($newNode);
-		$newNode->calcHeight();
-		$newNode->balance();
+		$this->calcHeight();
+		if (in_array($this->value, [16, 6]))
+		{
+			xdebug_break();
+		}
+		$this->balance(true);
 
-		return $newNode;
+		return $this;
 	}
 
 	public function remove(): ?static
@@ -139,11 +151,11 @@ class NodeAVL extends NodeBinary
 				$result = $this->getRight();
 			}
 		}
-		
+
 		return $result;
 	}
 
-	public function rotateLeftLeft()
+	public function rotateRight(): static
 	{
 		$usedToBeParent = $this->getParent();
 		$grand = $usedToBeParent->getParent();
@@ -164,19 +176,16 @@ class NodeAVL extends NodeBinary
 				$grand->setRight($this);
 			}
 		}
+		$usedToBeParent->calcHeight();
+
+		return $this;
 	}
 
-	public function rotateRightLeft()
+	public function rotateLeft(): static
 	{
-		$this->getRight()->rotateRightRight();
-		$this->rotateLeftLeft();
-	}
-
-	public function rotateRightRight()
-	{
-		$usedToBeParent = $this->getParent();
-		$grand = $usedToBeParent->getParent();
-		$leftParent = $grand && $grand->getLeft() === $usedToBeParent;
+		$usedToBeParent = $this->getParent(); //4
+		$grand = $usedToBeParent->getParent(); //7
+		$leftParent = $grand?->getLeft() === $usedToBeParent;
 
 		$usedToBeParent->setRight($this->getLeft());
 		$usedToBeParent->setParent($this);
@@ -193,12 +202,8 @@ class NodeAVL extends NodeBinary
 				$grand->setRight($this);
 			}
 		}
-	}
+		$usedToBeParent->calcHeight();
 
-	public function rotateLeftRight()
-	{
-
-		$this->getLeft()->rotateLeftLeft();
-		$this->rotateRightRight();
+		return $this;
 	}
 }

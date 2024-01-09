@@ -73,6 +73,11 @@ abstract class Node
 
 	abstract public function append(Node $newNode): ?static;
 
+	public function onAppended(): static
+	{
+		return $this;
+	}
+
 	abstract public function remove(): ?static;
 
 	public function accept(Visitor $visitor): void
