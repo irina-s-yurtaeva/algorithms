@@ -55,7 +55,7 @@ try
 		echo "Tree nodes: $count and testing elements: $elementsCount" . PHP_EOL;
 
 		foreach ([
-//			\Otus\ex10_AVL\TreeBinary::class,
+			\Otus\ex10_AVL\TreeBinary::class,
 //			\Otus\ex10_AVL\TreeAVL::class,
 			\Otus\ex10_AVL\TreeSplay::class,
 

@@ -12,11 +12,8 @@ class NodeBinary extends Node
 		{
 			$newNode->setParent($this->getParent());
 			$this->detectDuplicate();
-
-			return $this;
 		}
-
-		if ($this->getValue() > $newNode->getValue())
+		else if ($this->getValue() > $newNode->getValue())
 		{
 			if ($this->getLeft() === null)
 			{
@@ -25,7 +22,9 @@ class NodeBinary extends Node
 			}
 			else
 			{
-				$this->getLeft()->append($newNode);
+				$this->setLeft(
+					$this->getLeft()->append($newNode)
+				);
 			}
 		}
 		else
@@ -37,11 +36,13 @@ class NodeBinary extends Node
 			}
 			else
 			{
-				$this->getRight()->append($newNode);
+				$this->setRight(
+					$this->getRight()->append($newNode)
+				);
 			}
 		}
 
-		return $newNode;
+		return $this;
 	}
 
 	public function remove(): ?static
@@ -90,7 +91,7 @@ class NodeBinary extends Node
 				$result = $this->getRight();
 			}
 		}
-		
+
 		return $result;
 	}
 }
