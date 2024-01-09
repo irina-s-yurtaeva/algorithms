@@ -1,0 +1,35 @@
+                Algorithm |  Build (time) |  Build (memo) |  Search (res) | Search (time) | Search (memo) | Remove (time) | Remove (memo) |
+Tree nodes: 7 and testing elements: 3
+               Splay tree | 938.37 microS |       35.1 KB |           3/3 | 197.49 microS |       5.08 KB |
+Sorting in the last tree: 129.05 microS: 0 1 2 3 4 5 7...0 1 2 3 4 5 7
+Searching in the last tree: 29.97 microS. Need to search: 3 and found: 3
+Tree nodes: 13 and testing elements: 10
+               Splay tree | 604.33 microS |       3.09 KB |         10/10 | 135.61 microS |         688 B |
+Sorting in the last tree: 60.4 microS: 0 1 2 3 4 5 6 7 10 12...3 4 5 6 7 10 12 16 45 78
+Searching in the last tree: 129.91 microS. Need to search: 10 and found: 10
+Tree nodes: 5 and testing elements: 3
+               Splay tree | 174.04 microS |       1.68 KB |           3/3 |  38.24 microS |         528 B |
+Sorting in the last tree: 27.46 microS: 0 1 2 3 4...0 1 2 3 4
+Searching in the last tree: 35.07 microS. Need to search: 3 and found: 3
+Tree nodes: 10 and testing elements: 3
+               Splay tree | 525.02 microS |       2.62 KB |           3/3 |  34.62 microS |         528 B |
+Sorting in the last tree: 47.92 microS: 0 1 2 3 4 5 6 7 8 9...0 1 2 3 4 5 6 7 8 9
+Searching in the last tree: 30.76 microS. Need to search: 3 and found: 3
+Tree nodes: 20 and testing elements: 10
+               Splay tree |   1.42 milliS |       4.49 KB |         10/10 | 161.61 microS |         688 B |
+Sorting in the last tree: 88.7 microS: 0 1 2 3 4 5 6 7 8 9...10 11 12 13 14 15 16 17 18 19
+Searching in the last tree: 150.91 microS. Need to search: 10 and found: 10
+Tree nodes: 100 and testing elements: 10
+               Splay tree |   6.75 milliS |      18.87 KB |         10/10 |  91.58 microS |         688 B |
+Sorting in the last tree: 142.65 microS: 0 1 2 3 4 5 6 7 8 9...90 91 92 93 94 95 96 97 98 99
+Searching in the last tree: 86.21 microS. Need to search: 10 and found: 10
+Tree nodes: 1000 and testing elements: 10
+               Splay tree |  69.76 milliS |     184.99 KB |         10/10 | 155.41 microS |         688 B |
+Sorting in the last tree: 1.41 milliS: 0 1 2 3 4 5 6 7 8 9...990 991 992 993 994 995 996 997 998 999
+Searching in the last tree: 146.56 microS. Need to search: 10 and found: 10
+Tree nodes: 10000 and testing elements: 10
+               Splay tree |         1 sec |       1.89 MB |         10/10 | 189.26 microS |         688 B |
+Sorting in the last tree: 14.86 milliS: 0 1 2 3 4 5 6 7 8 9...9990 9991 9992 9993 9994 9995 9996 9997 9998 9999
+Searching in the last tree: 195.23 microS. Need to search: 10 and found: 10
+
+Process finished with exit code 0
