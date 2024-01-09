@@ -27,9 +27,8 @@ class VisitorDFSearcher extends Visitor
 		if ($node->getValue() === $this->value)
 		{
 			$this->foundNode = $node;
-			return;
 		}
-		if ($this->value < $node->getValue())
+		else if ($this->value < $node->getValue())
 		{
 			$this->visit($node->getLeft());
 		}

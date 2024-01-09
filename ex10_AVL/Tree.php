@@ -60,9 +60,6 @@ abstract class Tree
 				}
 			}
 			$result->finalize();
-
-
-			$result->finalize();
 		}
 		catch (\Otus\TimeoutException $e)
 		{
@@ -124,7 +121,8 @@ abstract class Tree
 		{
 			$this->checkTime();
 			$newNode = $this->createNode($value);
-			$this->root->append($newNode)->onAppended();
+			$this->root = $this->root->append($newNode);
+			$newNode->onAppended();
 		}
 
 		return $this->root;
@@ -133,7 +131,8 @@ abstract class Tree
 	public function insert(int $value): Node
 	{
 		$newNode = $this->createNode($value);
-		$this->root->append($newNode);
+		$this->root = $this->root->append($newNode);
+		$newNode->onAppended();
 
 		return $newNode;
 	}

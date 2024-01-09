@@ -35,7 +35,7 @@ echo
 try
 {
 	foreach ([
-//		[3,1, 7, 4, 0, 2,5],
+		[3,1, 7, 4, 0, 2,5],
 		[3,1, 7, 4, 0, 2,5, 10, 45, 78, 12, 16, 6],
 			ArrayFabric::createShuffle(5),
 			ArrayFabric::createShuffle(10),
@@ -49,7 +49,8 @@ try
 	] as $array)
 	{
 		$count = count($array);
-		$elements = range(0, $count - 1, $count > 10 ? 10 : 3);
+		$elementKeys = array_rand($array, $count > 10 ? 10 : 3);
+		$elements = array_intersect_key($array, array_flip($elementKeys));
 		$elementsCount = count($elements);
 		echo "Tree nodes: $count and testing elements: $elementsCount" . PHP_EOL;
 
