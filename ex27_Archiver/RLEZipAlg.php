@@ -25,14 +25,15 @@ class RLEZipAlg extends ArchiverAlg
 			}
 			else
 			{
-				$result[] = $pair[1] . ' ' . ord($pair[0]);
+				$result[] = [$pair[1], $pair[0]];
 				$pair = [$letter, 1];
 			}
 			$this->iterate();
 			$letter = array_shift($letters);
 		}
-		$result[] = $pair[1] . ' ' . ord($pair[0]);
+		$result[] = [$pair[1], $pair[0]];
 
-		return implode(PHP_EOL, $result);
+		$res = implode(PHP_EOL, array_map(fn($v) => pack('CC', $v[0], ord($v[1])), $result));
+		return $res;
 	}
 }

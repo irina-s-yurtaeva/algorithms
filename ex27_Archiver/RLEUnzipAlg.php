@@ -15,7 +15,7 @@ class RLEUnzipAlg extends ArchiverAlg
 		$rawStr = strtok($data, $token = PHP_EOL);
 		while ($rawStr)
 		{
-			[$countTimes, $ordLetter] = explode(' ', $rawStr);
+			[$countTimes, $ordLetter] = array_values(unpack('C*', $rawStr));
 			$result .= str_repeat(chr($ordLetter), $countTimes);
 			$rawStr = strtok($token);
 			$this->iterate();
