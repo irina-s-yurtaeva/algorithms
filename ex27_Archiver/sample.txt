@@ -1,8 +1,12 @@
 Archiver
                                       Algorithm |      Alg Time |      Alg Memo |           Efficiency |
 Dataset: Strong string
-                            Run-length encoding |  56.26 microS |         384 B |                -477% |               |
-                            Run-length decoding | 186.21 microS |         312 B |            Well done |               |
+                            Run-length encoding |  80.86 microS |         352 B |                -192% |
+                            Run-length decoding |  64.52 microS |         312 B |            Well done |
+                   Run-length Enhanced encoding |   35.3 microS |         312 B |                  -8% |
+                   Run-length Enhanced decoding |  18.41 microS |         312 B |            Well done |
 Dataset: aaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbaaaaaaaaaaaaaaaabbbbbbbbbbbbbbb
-                            Run-length encoding |  130.1 microS |         328 B |                  68% |               |
-                            Run-length decoding |  21.54 microS |         272 B |            Well done |               |
+                            Run-length encoding |  74.84 microS |         320 B |                  85% |
+                            Run-length decoding |  10.78 microS |         304 B |            Well done |
+                   Run-length Enhanced encoding | 103.65 microS |         312 B |                  89% |
+                   Run-length Enhanced decoding |  19.92 microS |         384 B |            Well done |

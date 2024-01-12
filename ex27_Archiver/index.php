@@ -26,7 +26,7 @@ try
 		$rawData = (new DataText())->set($text);
 		foreach ([
 				[RLEZipAlg::class, RLEUnzipAlg::class],
-//				[RLE2ZipAlg::class, RLE2UnzipAlg::class],
+				[RLE2ZipAlg::class, RLE2UnzipAlg::class],
 //				[HuffmanZipAlg::class, HuffmanUnzipAlg::class],
 
 			] as [$zipAlgClass, $unzipAlgClass])
@@ -82,7 +82,7 @@ try
 					str_pad($column[1], 13, ' ', STR_PAD_LEFT). ' | ' .
 					str_pad($column[2], 13, ' ', STR_PAD_LEFT). ' | ' .
 					str_pad($column[3], 20, ' ', STR_PAD_LEFT). ' | ' .
-					str_pad($column[4], 13, ' ', STR_PAD_LEFT). ' | ' .
+//					str_pad($column[4], 13, ' ', STR_PAD_LEFT). ' | ' .
 					PHP_EOL
 				;
 			}
