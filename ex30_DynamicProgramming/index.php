@@ -27,7 +27,8 @@ echo $painter->resetColor();
 try
 {
 	foreach ([
-			OneTwoPeas::class
+//		OneTwoPeas::class,
+		FirTree::class,
 	] as $taskClass)
 	{
 		$task = new $taskClass;
