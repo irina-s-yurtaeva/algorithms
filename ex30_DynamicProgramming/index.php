@@ -28,7 +28,8 @@ try
 {
 	foreach ([
 //		OneTwoPeas::class,
-		FirTree::class,
+//		FirTree::class,
+		EightFive::class,
 	] as $taskClass)
 	{
 		$task = new $taskClass;
