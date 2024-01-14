@@ -30,8 +30,8 @@ class EightFive extends \Otus\Alg
 			'855855 - можно' . PHP_EOL
 		;
 		$range = readline('Порядок числа от 1 до 88: ');
-		$range = min($range ?? 4, 88);
-
+		$range = min(!empty($range) ? $range : 4, 88);
+echo '$range: '. $range . PHP_EOL;
 		[$sum, $numbers] = $this->calc($range);
 		echo 'Для порядка: ' . $range . ' ответ: ' . $sum . PHP_EOL;
 		echo implode(', ', $numbers) . PHP_EOL;
