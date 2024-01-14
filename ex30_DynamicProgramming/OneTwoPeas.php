@@ -7,6 +7,8 @@ use Otus\PaintUtils;
 
 class OneTwoPeas extends \Otus\Alg
 {
+	public const CODE = '4';
+
 	protected PaintUtils $painter;
 
 	public function __construct()

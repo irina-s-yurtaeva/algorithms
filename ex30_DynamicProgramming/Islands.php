@@ -7,6 +7,8 @@ use Otus\Result;
 
 class Islands extends \Otus\Alg
 {
+	public const CODE = '3';
+
 	protected PaintUtils $painter;
 
 	public function __construct()

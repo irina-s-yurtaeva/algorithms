@@ -7,6 +7,8 @@ use Otus\Result;
 
 class FirTree extends \Otus\Alg
 {
+	public const CODE = '2';
+
 	protected PaintUtils $painter;
 
 	public function __construct()
@@ -26,13 +28,14 @@ class FirTree extends \Otus\Alg
 		echo 'Введите числа, из которых будет выстроена ёлочка, разделённые пробелом. Если оставите пустым, то будут использованы демонстрационные данные.' . PHP_EOL;
 		$numbers = explode(' ', readline('Числа: '));
 
-		if (count($numbers) <= 0)
+		if (count($numbers) <= 1)
 		{
 			echo 'Будет использоваться демонстрационный набор ' . PHP_EOL;
 			$numbers = $this->getDemoData();
 		}
 		$rowsCount = $this->findN(count($numbers));
 
+		echo 'wewe: ' . implode(', ' ,$numbers ). PHP_EOL;
 		//region just draw a tree
 		$numberLength = strlen(max($numbers)) + 2;
 		$stringLength = $numberLength * $rowsCount;
@@ -50,7 +53,6 @@ class FirTree extends \Otus\Alg
 		}
 		echo $this->painter->resetColor();
 		//endregion
-
 		echo 'Максимальная сумма: ' . $this->findTheWay($rowsCount, $numbers) . PHP_EOL;
 
 		return $result;

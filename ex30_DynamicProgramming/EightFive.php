@@ -7,6 +7,8 @@ use Otus\Result;
 
 class EightFive extends \Otus\Alg
 {
+	public const CODE = '1';
+
 	protected PaintUtils $painter;
 
 	public function __construct()

@@ -26,19 +26,31 @@ echo $painter->resetColor();
 
 try
 {
-	foreach ([
-//		OneTwoPeas::class,
-//		FirTree::class,
-//		EightFive::class,
-		Islands::class,
-	] as $taskClass)
+	$tasks = [
+		OneTwoPeas::CODE => OneTwoPeas::class,
+		FirTree::CODE => FirTree::class,
+		EightFive::CODE => EightFive::class,
+		Islands::CODE => Islands::class,
+	];
+	echo PHP_EOL . 'Введите один из кодов задачи для работы ' . PHP_EOL;
+	foreach ($tasks as $code => $taskClass)
 	{
 		$task = new $taskClass;
-		echo $painter->colorFont([255, 255, 51]);
-		echo PHP_EOL. PHP_EOL. 'Задача: ' . $task->getName(). PHP_EOL;
-		echo $painter->resetColor();
+		echo  'Задача: ' . $task->getName(). ' код ' . $code . PHP_EOL;
 
-		$task->apply();
+	}
+
+	while ($code = readline('Код задания: '))
+	{
+		if ($taskClass = $tasks[$code] ?? null)
+		{
+			$task = new $taskClass;
+			echo $painter->colorFont([255, 255, 51]);
+			echo PHP_EOL. PHP_EOL. 'Задача: ' . $task->getName(). PHP_EOL;
+			echo $painter->resetColor();
+
+			$task->apply();
+		}
 	}
 }
 catch (\Otus\TimeoutException $e)
